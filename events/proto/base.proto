@@ -17,6 +17,7 @@ message MessageInfo {
 
 message Header {
     string id = 1;
-    Timestamp timestamp = 2;
+    string parent_id = 2;
+    Timestamp timestamp = 3;
     System system = 4;
 }
