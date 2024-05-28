@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+message Analyzed {
+    Header header = 1;
+    MessageInfo message = 2;
+    // honestly not sure.. do we want a type of analysis?
+    // certainly a set of traits or tags resulting from the analysis?
+}
