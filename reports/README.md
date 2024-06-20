@@ -85,6 +85,8 @@ In order to access the ASB from your DEX service there may need be a firewall ru
 # Anatomy of a Report
 Depending on the delivery mechanism, the anatomy of a report will look a little different. When sending via the Azure Service Bus, one extra parameter may be provided, `disposition_type` which is can be either `add` or `replace`.  If not provided, the default is `add`.  The `disposition_type` field is not needed for GraphQL as the mutation name indicates whether the report is being added or replaced.
 
+![PS API Report Anatomy](./resources/report_anatomy.png)
+
 ## Report schemas
 There are many solutions for defining schemas to ensure interoperability.  One popular solution specific to JSON is [json-schema.org](https://json-schema.org/). While there are many solutions that encompass other formats beyond JSON, the primary report format for DEX is JSON.  As such, to keep things simple we've opted, at least initially for a proof of concept, to move forward with `json-schema.org`.
 
@@ -468,7 +470,7 @@ Example:
   "upload_id": "unique_guid",
   "timestamp": "2024-06-19T00:51:08Z",
   "data_stream_id": "aims-celr",
-  "data_stream_route": "csv",
+  "data_stream_route": "hl7",
   "reports": [
     {
       "stage": "DEX HL7 v2",
@@ -502,13 +504,13 @@ Example:
       ]
     },
     {
-      // other reports
+      "other_reports": "..."
     }
   ]
 }
 ```
 **Notes**
-- *`status`: The processing, failed, or delivered status will be determined by first finding all reports associated with the upload.  Next, the report with the most recent timestamp will be examined.  The status of that report will be provided.
+- `status`: The processing, failed, or delivered status will be determined by first finding all reports associated with the upload.  Next, the report with the most recent timestamp will be examined.  The status of that report will be provided.
 - `current_stage`: Find report with most recent timestamp for the upload ID and report the stage.
 - `current_action`: Find report with most recent timestamp for the upload ID and report the action.
 - `filename`: Locate first found report with stage, "upload-status" for the upload ID and report the filename.
