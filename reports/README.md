@@ -2,14 +2,14 @@
 Reports are an essential component of the data observability aspect of the CDC Data Exchange (DEX).  In DEX, data is ingested to the system typically through a file upload.  As the upload progresses through the service line processing occurs.  The processing in the service line is made up stages, which can be the upload, routing, data validation, data transformations, etc.  Within each of those stages one or more actions may occur.  Taking the example of upload, one action within the stage may be to first verify that all the required metadata associated with the uploaded file is provided and reject it if not.  Other upload actions may include the file upload itself or the disposition of the upload for further downstream processing.  Reports are provided by both services internal to DEX and downstream of DEX as data moves through CDC systems.  Those services indicate the processing status of these stages through Reports.
 
 # Delivery Mechanisms
-Reports may be provided in one of two ways - either through calls into the Processing Status (PS) API as GraphQL mutations or by way of an Azure Service Bus.  There are pros and cons to each summarized below.
+Reports may be provided in one of two ways - either through calls into the Processing Status (PS) API as GraphQL mutations or by way of an Azure Service Bus.  There are pros and cons of each summarized below.
 
 | Azure Service Bus   | GraphQL                  |
 |---------------------|--------------------------|
 | Fire and forget [1] | Confirmation of delivery |
 | Fast                | Slower                   |
 
-[1] Failed reports are sent to a Report deadletter that can be queried to find out the reason(s) for its rejection.  There is currently no direct feedback mechanism to the report provider of the rejection.
+[1] Failed reports are sent to a Report deadletter that can be queried to find out the reason(s) for its rejection.  When using ASB there is no direct feedback mechanism to the report provider of the rejection.
 
 ### GraphQL Mutations
 GraphQL mutations are writes to a persisted object.  In the case of PS API, reports are written to PS API as GraphQL mutations.
@@ -61,7 +61,7 @@ Response of rejected report:
 There will also be a mutation available to replace an existing report.
 
 ### Azure Service Bus
-Reports may be sent to the PS API Azure Service Bus (ASB) queue or topic.  Below is an example code snipper in kotlin.
+Reports may be sent to the PS API Azure Service Bus (ASB) queue or topic.  Below is an example code snippet in Kotlin.
 
 ```kotlin
 val report = MyDEXReport().apply {
@@ -87,10 +87,10 @@ Depending on the delivery mechanism, the anatomy of a report will look a little 
 
 ![PS API Report Anatomy](./resources/report_anatomy.png)
 
-## Report schemas
+## Report Schemas
 There are many solutions for defining schemas to ensure interoperability.  One popular solution specific to JSON is [json-schema.org](https://json-schema.org/). While there are many solutions that encompass other formats beyond JSON, the primary report format for DEX is JSON.  As such, to keep things simple we've opted, at least initially for a proof of concept, to move forward with `json-schema.org`.
 
-### Report base content
+### Report Base Content
 All report base content must be in JSON and every report is required to have a base set of fields.  However, if additional fields are provided in the report base content they will be recorded with the report untouched.
 
 Example:
@@ -197,10 +197,10 @@ When a report is accepted a two new fields will be added when the report is pers
 - `report_id`: Generated UUID of the report.
 - `timestamp`: Timestamp of when the report was accepted and written to the database.
 
-### Base report schema
+### Base Report Schema
 The base report schema is the basis of every report.  All reports must include it.  It's analogous to an open base class in object-oriented design.  See [this link](base.1.0.0.schema.json) for an example schema definition of the base report using json-schema.org.
 
-### Concrete report schemas
+### Concrete Report Schemas
 When `content_type = json`, the `content` will be interpreted as JSON and from within `content` the `schema_name` and `schema_version` will be inspected.  We will use these two values to lookup a matching schema definition for further validation of the report's content.
 
 Example:
@@ -256,16 +256,16 @@ All DEX internal service shall provide their **report content** in JSON.  Report
 
 If partners using DEX have downstream processing and want to provide **report content** in XML, PDF or some other format they may.  If a partner provides any content format other than JSON it will be recorded in the `content` field as a base64 encoded string.
 
-| Report Type                 | Schemas Available                                             | Latest Version | Used by stage / action        |
-|-----------------------------|---------------------------------------------------------------|----------------|-------------------------------|
-| base                        | [schema.1.0.0](base.1.0.0.schema.json)                        | 1.0.0          | all / all                     |
-| metadata-verify             | [schema.1.0.0](metadata-verify.1.0.0.schema.json)             | 1.0.0          | upload / metadata-verify      |
-| upload-status               | [schema.1.0.0](upload-status.1.0.0.schema.json)               | 1.0.0          | upload / upload-status        |
-| blob-file-copy              | [schema.1.0.0](blob-file-copy.1.0.0.schema.json)              | 1.0.0          | routing / file-copy           |
-| hl7v2-debatch               | [schema.1.0.0](hl7v2-debatch.1.0.0.schema.json)               | 1.0.0          | hl7v2 / receiver              |
-| hl7v2-redact                | [schema.1.0.0](hl7v2-redact.1.0.0.schema.json)                | 1.0.0          | hl7v2 / redactor              |
-| hl7v2-structure-validation  | [schema.1.0.0](hl7v2-structure-validation.1.0.0.schema.json)  | 1.0.0          | hl7v2 / structure-validator   |
-| hl7v2-json-lake-transformer | [schema.1.0.0](hl7v2-json-lake-transformer.1.0.0.schema.json) | 1.0.0          | hl7v2 / json-lake-transformer |
+| Report Type                 | Schemas Available                                               | Latest Version | Used by stage / action                  |
+|-----------------------------|-----------------------------------------------------------------|----------------|-----------------------------------------|
+| base                        | [schema.1.0.0](base.1.0.0.schema.json)                          | 1.0.0          | all / all                               |
+| metadata-verify             | [schema.1.0.0](metadata-verify.1.0.0.schema.json)               | 1.0.0          | upload / metadata-verify                |
+| upload-status               | [schema.1.0.0](upload-status.1.0.0.schema.json)                 | 1.0.0          | upload / upload-status                  |
+| blob-file-copy              | [schema.1.0.0](blob-file-copy.1.0.0.schema.json)                | 1.0.0          | routing / file-copy, upload / file-copy |
+| hl7v2-debatch               | [schema.1.0.0](hl7v2-debatch.1.0.0.schema.json)                 | 1.0.0          | hl7v2 / receiver                        |
+| hl7v2-redact                | [schema.1.0.0](hl7v2-redact.1.0.0.schema.json)                  | 1.0.0          | hl7v2 / redactor                        |
+| hl7v2-structure-validation  | [schema.1.0.0](hl7v2-structure-validation.1.0.0.schema.json)    | 1.0.0          | hl7v2 / structure-validator             |
+| hl7v2-json-lake-transformer | [schema.1.0.0](hl7v2-json-lake-transformer.1.0.0.schema.json)   | 1.0.0          | hl7v2 / json-lake-transformer           |
 
 # Validation
 The PS API will perform the following workflow for validation.
