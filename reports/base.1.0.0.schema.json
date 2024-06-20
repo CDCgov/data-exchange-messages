@@ -1,0 +1,127 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://github.com/cdcent/data-exchange-messages/reports/base",
+    "title": "Base Report",
+    "type": "object",
+    "required": ["schema_name", "schema_version", "upload_id", "data_stream_id", "data_stream_route", "jurisdiction", "dex_ingest_timestamp", "status", "stage", "action", "content_type"],
+    "if": {
+        "properties": {
+            "content_type": {
+                "const": "json"
+            }
+        }
+    },
+    "then": {
+        "properties": {
+            "content": {
+                "$ref": "#/$defs/jsonContent"
+            }
+        }
+    },
+    "properties": {
+        "schema_name": {
+            "type": "string"
+        },
+        "schema_version": {
+            "type": "string"
+        },
+        "upload_id": {
+            "$ref": "#/$defs/uuid",
+            "description": "Unique upload identifier associated with this report."
+        },
+        "user_id": {
+            "type": "string",
+            "description": "User or system id that uploaded the file, not the provider of this report."
+        },
+        "data_stream_id": {
+            "type": "string"
+        },
+        "data_stream_route": {
+            "type": "string"
+        },
+        "jurisdiction": {
+            "type": "string"
+        },
+        "dex_ingest_timestamp": {
+            "$ref": "#/$defs/timestamp"
+        },
+        "message_metadata": {
+            "$ref": "#/$defs/messageMetadata",
+            "description": "Metadata associated with the message this report belong to."
+        },
+        "status": {
+            "type": "string",
+            "enum": ["success", "failed"]
+        },
+        "issues": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "level": {
+                        "type": "string",
+                        "enum": [
+                            "warning",
+                            "error"
+                        ]
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "stage": {
+            "type": "string"
+        },
+        "action": {
+            "type": "string"
+        },
+        "content_type": {
+            "type": "string"
+        }
+    },
+    "$defs": {
+        "uuid": {
+            "type": "string",
+            "format": "uuid"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "messageMetadata": {
+            "type": "object",
+            "properties": {
+                "message_uuid": {
+                    "type": "string",
+                    "description": "Unique identifier for the message associated with this report.  Null if not applicable."
+                },
+                "message_hash": {
+                    "type": "string",
+                    "description": "MD5 hash of the message content."
+                },
+                "single_or_batch": {
+                    "type": "string",
+                    "enum": ["single", "batch"],
+                    "description": "Enumeration: [single, batch]."
+                },
+                "message_index": {
+                    "type": "integer",
+                    "description": "Index of the message; e.g. row if csv."
+                }
+            }
+        },
+        "jsonContent": {
+            "type": "object",
+            "properties": {
+                "schema_name": {
+                    "type": "string"
+                },
+                "schema_version": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
