@@ -340,155 +340,159 @@ query GetUploads($dataStreamId: String!, $dataStreamRoute: String!, $dateStart: 
 GraphQL Response:
 ```json
 {
-  "summary": {
-    "page_number": 1,
-    "number_of_pages": 1,
-    "page_size": 20,
-    "total_items": 7
-  },
-  "items": [
-    {
-      "status": "FailedMetadata",
-      "filename": "some_upload1.csv",
-      "upload_id": "933e7f15-67ab-4ab7-979c-b7f58870f483",
-      "metadata": {
-        "meta_field2": "value3"
+  "data": {
+    "uploads": {
+      "summary": {
+        "page_number": 1,
+        "number_of_pages": 1,
+        "page_size": 20,
+        "total_items": 7
       },
-      "issues": [
-        "Missing required metadata field, 'meta_field1'.",
-        "Metadata field, 'meta_field2' is set to 'value3' and does not contain one of the allowed values: [ 'value1', value2']"
-      ],
-      "timestamp": "2024-03-21T22:03:39.469Z"
-    },
-    {
-      "status": "Uploading",
-      "percent_complete": 0.0,
-      "filename": "some_upload1.csv",
-      "file_size_bytes": 27472691,
-      "bytes_uploaded": 0,
-      "upload_id": "1d4ea7e7-4190-4f8c-b874-b5a6235e8f15",
-      "time_uploading_sec": -1.698290295046E9,
-      "metadata": {
-        "filename": "10MB-test-file",
-        "filetype": "text/plain",
-        "meta_destination_id": "ndlp",
-        "meta_ext_event": "routineImmunization",
-        "meta_ext_source": "IZGW",
-        "meta_ext_sourceversion": "V2022-12-31",
-        "meta_ext_entity": "DD2",
-        "meta_username": "ygj6@cdc.gov",
-        "meta_ext_objectkey": "2b18d70c-8559-11ee-b9d1-0242ac120002",
-        "meta_ext_filename": "10MB-test-file",
-        "meta_ext_submissionperiod": "1"
-      },
-      "timestamp": "2024-03-08T23:38:21.493Z"
-    },
-    {
-      "status": "UploadComplete",
-      "percent_complete": 100.0,
-      "filename": "some_upload1.csv",
-      "file_size_bytes": 27472691,
-      "bytes_uploaded": 27472691,
-      "upload_id": "e4361c73-348b-46f2-aad8-3043f8922f1d",
-      "time_uploading_sec": 4.312,
-      "metadata": {
-        "filename": "10MB-test-file",
-        "filetype": "text/plain",
-        "meta_destination_id": "ndlp",
-        "meta_ext_event": "routineImmunization",
-        "meta_ext_source": "IZGW",
-        "meta_ext_sourceversion": "V2022-12-31",
-        "meta_ext_entity": "DD2",
-        "meta_username": "ygj6@cdc.gov",
-        "meta_ext_objectkey": "2b18d70c-8559-11ee-b9d1-0242ac120002",
-        "meta_ext_filename": "10MB-test-file",
-        "meta_ext_submissionperiod": "1"
-      },
-      "timestamp": "2024-05-25T17:48:50.678Z"
-    },
-    {
-      "status": "UploadComplete",
-      "percent_complete": 100.0,
-      "filename": "some_upload1.csv",
-      "file_size_bytes": 27472691,
-      "bytes_uploaded": 27472691,
-      "upload_id": "0bd88f4a-1727-4d7b-bc5d-0a09c230e4a6",
-      "time_uploading_sec": 4.312,
-      "metadata": {
-        "filename": "10MB-test-file",
-        "filetype": "text/plain",
-        "meta_destination_id": "ndlp",
-        "meta_ext_event": "routineImmunization",
-        "meta_ext_source": "IZGW",
-        "meta_ext_sourceversion": "V2022-12-31",
-        "meta_ext_entity": "DD2",
-        "meta_username": "ygj6@cdc.gov",
-        "meta_ext_objectkey": "2b18d70c-8559-11ee-b9d1-0242ac120002",
-        "meta_ext_filename": "10MB-test-file",
-        "meta_ext_submissionperiod": "1"
-      },
-      "timestamp": "2024-03-22T01:44:10.576Z"
-    },
-    {
-      "status": "Uploading",
-      "percent_complete": 0.0,
-      "filename": "some_upload1.csv",
-      "file_size_bytes": 27472691,
-      "bytes_uploaded": 0,
-      "upload_id": "69a671bf-16f5-43b6-b6fa-b0a0e602e281",
-      "time_uploading_sec": -1.698290295046E9,
-      "metadata": {
-        "filename": "10MB-test-file",
-        "filetype": "text/plain",
-        "meta_destination_id": "ndlp",
-        "meta_ext_event": "routineImmunization",
-        "meta_ext_source": "IZGW",
-        "meta_ext_sourceversion": "V2022-12-31",
-        "meta_ext_entity": "DD2",
-        "meta_username": "ygj6@cdc.gov",
-        "meta_ext_objectkey": "2b18d70c-8559-11ee-b9d1-0242ac120002",
-        "meta_ext_filename": "10MB-test-file",
-        "meta_ext_submissionperiod": "1"
-      },
-      "timestamp": "2024-03-07T00:18:51.426Z"
-    },
-    {
-      "status": "FailedMetadata",
-      "filename": "some_upload1.csv",
-      "upload_id": "aaf28167-207e-4a26-b760-485bc1e29f21",
-      "metadata": {
-        "meta_field2": "value3"
-      },
-      "issues": [
-        "Missing required metadata field, 'meta_field1'.",
-        "Metadata field, 'meta_field2' is set to 'value3' and does not contain one of the allowed values: [ 'value1', value2']"
-      ],
-      "timestamp": "2024-03-22T01:43:33.519Z"
-    },
-    {
-      "status": "UploadComplete",
-      "percent_complete": 100.0,
-      "filename": "some_upload1.csv",
-      "file_size_bytes": 27472691,
-      "bytes_uploaded": 27472691,
-      "upload_id": "d32a0a25-fb91-4726-a13f-f8052b1b6f1b",
-      "time_uploading_sec": 4.312,
-      "metadata": {
-        "filename": "10MB-test-file",
-        "filetype": "text/plain",
-        "meta_destination_id": "ndlp",
-        "meta_ext_event": "routineImmunization",
-        "meta_ext_source": "IZGW",
-        "meta_ext_sourceversion": "V2022-12-31",
-        "meta_ext_entity": "DD2",
-        "meta_username": "ygj6@cdc.gov",
-        "meta_ext_objectkey": "2b18d70c-8559-11ee-b9d1-0242ac120002",
-        "meta_ext_filename": "10MB-test-file",
-        "meta_ext_submissionperiod": "1"
-      },
-      "timestamp": "2024-03-07T00:17:34.160Z"
+      "items": [
+        {
+          "status": "FailedMetadata",
+          "filename": "some_upload1.csv",
+          "upload_id": "933e7f15-67ab-4ab7-979c-b7f58870f483",
+          "metadata": {
+            "meta_field2": "value3"
+          },
+          "issues": [
+            "Missing required metadata field, 'meta_field1'.",
+            "Metadata field, 'meta_field2' is set to 'value3' and does not contain one of the allowed values: [ 'value1', value2']"
+          ],
+          "timestamp": "2024-03-21T22:03:39.469Z"
+        },
+        {
+          "status": "Uploading",
+          "percent_complete": 0.0,
+          "filename": "some_upload1.csv",
+          "file_size_bytes": 27472691,
+          "bytes_uploaded": 0,
+          "upload_id": "1d4ea7e7-4190-4f8c-b874-b5a6235e8f15",
+          "time_uploading_sec": -1.698290295046E9,
+          "metadata": {
+            "filename": "10MB-test-file",
+            "filetype": "text/plain",
+            "meta_destination_id": "ndlp",
+            "meta_ext_event": "routineImmunization",
+            "meta_ext_source": "IZGW",
+            "meta_ext_sourceversion": "V2022-12-31",
+            "meta_ext_entity": "DD2",
+            "meta_username": "ygj6@cdc.gov",
+            "meta_ext_objectkey": "2b18d70c-8559-11ee-b9d1-0242ac120002",
+            "meta_ext_filename": "10MB-test-file",
+            "meta_ext_submissionperiod": "1"
+          },
+          "timestamp": "2024-03-08T23:38:21.493Z"
+        },
+        {
+          "status": "UploadComplete",
+          "percent_complete": 100.0,
+          "filename": "some_upload1.csv",
+          "file_size_bytes": 27472691,
+          "bytes_uploaded": 27472691,
+          "upload_id": "e4361c73-348b-46f2-aad8-3043f8922f1d",
+          "time_uploading_sec": 4.312,
+          "metadata": {
+            "filename": "10MB-test-file",
+            "filetype": "text/plain",
+            "meta_destination_id": "ndlp",
+            "meta_ext_event": "routineImmunization",
+            "meta_ext_source": "IZGW",
+            "meta_ext_sourceversion": "V2022-12-31",
+            "meta_ext_entity": "DD2",
+            "meta_username": "ygj6@cdc.gov",
+            "meta_ext_objectkey": "2b18d70c-8559-11ee-b9d1-0242ac120002",
+            "meta_ext_filename": "10MB-test-file",
+            "meta_ext_submissionperiod": "1"
+          },
+          "timestamp": "2024-05-25T17:48:50.678Z"
+        },
+        {
+          "status": "UploadComplete",
+          "percent_complete": 100.0,
+          "filename": "some_upload1.csv",
+          "file_size_bytes": 27472691,
+          "bytes_uploaded": 27472691,
+          "upload_id": "0bd88f4a-1727-4d7b-bc5d-0a09c230e4a6",
+          "time_uploading_sec": 4.312,
+          "metadata": {
+            "filename": "10MB-test-file",
+            "filetype": "text/plain",
+            "meta_destination_id": "ndlp",
+            "meta_ext_event": "routineImmunization",
+            "meta_ext_source": "IZGW",
+            "meta_ext_sourceversion": "V2022-12-31",
+            "meta_ext_entity": "DD2",
+            "meta_username": "ygj6@cdc.gov",
+            "meta_ext_objectkey": "2b18d70c-8559-11ee-b9d1-0242ac120002",
+            "meta_ext_filename": "10MB-test-file",
+            "meta_ext_submissionperiod": "1"
+          },
+          "timestamp": "2024-03-22T01:44:10.576Z"
+        },
+        {
+          "status": "Uploading",
+          "percent_complete": 0.0,
+          "filename": "some_upload1.csv",
+          "file_size_bytes": 27472691,
+          "bytes_uploaded": 0,
+          "upload_id": "69a671bf-16f5-43b6-b6fa-b0a0e602e281",
+          "time_uploading_sec": -1.698290295046E9,
+          "metadata": {
+            "filename": "10MB-test-file",
+            "filetype": "text/plain",
+            "meta_destination_id": "ndlp",
+            "meta_ext_event": "routineImmunization",
+            "meta_ext_source": "IZGW",
+            "meta_ext_sourceversion": "V2022-12-31",
+            "meta_ext_entity": "DD2",
+            "meta_username": "ygj6@cdc.gov",
+            "meta_ext_objectkey": "2b18d70c-8559-11ee-b9d1-0242ac120002",
+            "meta_ext_filename": "10MB-test-file",
+            "meta_ext_submissionperiod": "1"
+          },
+          "timestamp": "2024-03-07T00:18:51.426Z"
+        },
+        {
+          "status": "FailedMetadata",
+          "filename": "some_upload1.csv",
+          "upload_id": "aaf28167-207e-4a26-b760-485bc1e29f21",
+          "metadata": {
+            "meta_field2": "value3"
+          },
+          "issues": [
+            "Missing required metadata field, 'meta_field1'.",
+            "Metadata field, 'meta_field2' is set to 'value3' and does not contain one of the allowed values: [ 'value1', value2']"
+          ],
+          "timestamp": "2024-03-22T01:43:33.519Z"
+        },
+        {
+          "status": "UploadComplete",
+          "percent_complete": 100.0,
+          "filename": "some_upload1.csv",
+          "file_size_bytes": 27472691,
+          "bytes_uploaded": 27472691,
+          "upload_id": "d32a0a25-fb91-4726-a13f-f8052b1b6f1b",
+          "time_uploading_sec": 4.312,
+          "metadata": {
+            "filename": "10MB-test-file",
+            "filetype": "text/plain",
+            "meta_destination_id": "ndlp",
+            "meta_ext_event": "routineImmunization",
+            "meta_ext_source": "IZGW",
+            "meta_ext_sourceversion": "V2022-12-31",
+            "meta_ext_entity": "DD2",
+            "meta_username": "ygj6@cdc.gov",
+            "meta_ext_objectkey": "2b18d70c-8559-11ee-b9d1-0242ac120002",
+            "meta_ext_filename": "10MB-test-file",
+            "meta_ext_submissionperiod": "1"
+          },
+          "timestamp": "2024-03-07T00:17:34.160Z"
+        }
+      ]
     }
-  ]
+  }
 }
 ```
 
