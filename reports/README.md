@@ -302,7 +302,42 @@ Data projections are not defined by schemas in the way that reports are.  The de
 
 ### Submissions List
 
-Example:
+GraphQL Request:
+```graphql
+query GetUploads($dataStreamId: String!, $dataStreamRoute: String!, $dateStart: String!) {
+  uploads(
+    dataStreamId: $dataStreamId
+    dataStreamRoute: $dataStreamRoute
+    dateStart: $dateStart
+    dateEnd: null
+    pageSize: 20
+    pageNumber: 1
+    sortBy: null
+    sortOrder: null
+  ) {
+    summary {
+      numberOfPages
+      pageNumber
+      pageSize
+      totalItems
+    }
+    items {
+      uploadId
+      fileName
+      bytesUploaded
+      fileSizeBytes
+      percentComplete
+      status
+      issues
+      metadata
+      timeUploadingSec
+      timestamp
+    }
+  }
+}
+```
+
+GraphQL Response:
 ```json
 {
   "summary": {
