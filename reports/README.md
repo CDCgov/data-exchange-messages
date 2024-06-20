@@ -499,53 +499,100 @@ GraphQL Response:
 ### Submission Details
 Submission details contain all the known details for a particular upload.  It provides a roll-up of all the reports associated with the upload as well as some summary information.
 
-Example:
+GraphQL Request:
+```graphql
+query GetUploadDetails($reportId: String!) {
+  uploadDetails(
+    reportId: $reportId
+  ) {
+    status
+    currentStage
+    currentAction
+    filename
+    uploadId
+    timestamp
+    dataStreamId
+    dataStreamRoute
+    jurisdiction
+    reports {
+      stage
+      action
+      schemaName
+      schemaVersion
+      dataStreamId
+      dataStreamRoute
+      jurisdiction
+      status
+      messageMetadata {
+        messageUUID
+        messageHash
+        singleOrBatch
+        messageIndex
+      }
+      issues {
+        level
+        message
+      }
+      references {
+        type
+        key
+        value
+      }
+    }
+  }
+}
+```
+
+GraphQL Response:
 ```json
 {
-  "status": "processing|failed|delivered",
-  "current_stage": "hl7v2",
-  "current_action": "debatch",
-  "filename": "test.txt",
-  "upload_id": "unique_guid",
-  "timestamp": "2024-06-19T00:51:08Z",
-  "data_stream_id": "aims-celr",
-  "data_stream_route": "hl7",
-  "reports": [
-    {
-      "stage": "DEX HL7 v2",
-      "action": "debatch",
-      "schema_name": "dex-hl7",
-      "schema_version": "1.0",
-      "data_stream_id": "aims-celr",
-      "data_stream_route": "csv",
-      "jurisdiction": "MD",
-      "upload_id": "unique_guid",
-      "status": "failed",
-      "message_metadata": {
-        "message_uuid": "xyz-456",
-        "message_hash": "234234ed423",
-        "single_or_batch": "single",
-        "message_index": 1
-      },
-      "timestamp_complete": "12-12-2024",
-      "issues": [
+  "data": {
+    "uploadDetails": {
+      "status": "processing|failed|delivered",
+      "currentStage": "hl7v2",
+      "currentAction": "debatch",
+      "filename": "test.txt",
+      "uploadId": "unique_guid",
+      "timestamp": "2024-06-19T00:51:08Z",
+      "dataStreamId": "aims-celr",
+      "dataStreamRoute": "hl7",
+      "jurisdiction": "TXA",
+      "reports": [
         {
-          "level": "error",
-          "message": "Some detailed debatch issue description"
-        }
-      ],
-      "references": [
+          "stage": "DEX HL7 v2",
+          "action": "debatch",
+          "schemaName": "dex-hl7",
+          "schemaVersion": "1.0",
+          "dataStreamId": "aims-celr",
+          "dataStreamRoute": "csv",
+          "jurisdiction": "MD",
+          "status": "failed",
+          "messageMetadata": {
+            "messageUUID": "xyz-456",
+            "messageHash": "234234ed423",
+            "singleOrBatch": "single",
+            "messageIndex": 1
+          },
+          "issues": [
+            {
+              "level": "error",
+              "message": "Some detailed debatch issue description"
+            }
+          ],
+          "references": [
+            {
+              "type": "data",
+              "key": "blob_url",
+              "value": "https:<ACCOUNT>.blob.core.windows.net/<PATH>/<FILENAME>?<SIGNATURE>"
+            }
+          ]
+        },
         {
-          "type": "data",
-          "key": "blob_url",
-          "value": "https:<ACCOUNT>.blob.core.windows.net/<PATH>/<FILENAME>?<SIGNATURE>"
+          "otherReports": "..."
         }
       ]
-    },
-    {
-      "other_reports": "..."
     }
-  ]
+  }
 }
 ```
 **Notes**
