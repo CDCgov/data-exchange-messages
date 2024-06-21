@@ -96,7 +96,6 @@ All report base content must be in JSON and every report is required to have a b
 Example:
 ```json
 {
-  "schema_name": "base",
   "schema_version": "1.0.0",
   "upload_id": "97f39f33-e64d-4763-96eb-6186f2891777",
   "data_stream_id": "aims-celr",
@@ -120,7 +119,6 @@ Example:
 ```
 | Field                  | Description                                                                            | Type                  | Format          | Required |
 |------------------------|----------------------------------------------------------------------------------------|-----------------------|-----------------|----------|
-| `schema_name`          | Always `base`                                                                          | String                | Fixed           | Yes      |
 | `schema_version`       | Report schema version; e.g. 1.0.0                                                      | String                | x.y.z           | Yes      |
 | `upload_id`[1]         | Unique upload identifier                                                               | String                | UUID            | Yes      |
 | `user_id` [2]          | User or system id that uploaded the file, not the provider of this report              | String                |                 | No       |
