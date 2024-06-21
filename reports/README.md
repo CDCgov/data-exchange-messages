@@ -196,7 +196,7 @@ Example:
 
 [7] Content types should be [MIME types](https://www.iana.org/assignments/media-types/media-types.xhtml).  For example, for JSON `content_type` = `application/json`.  For backward compatibility, `json` is also accepted.
 
-[8] The `content` format is expected to be a JSON Object if  `content_type` is `json`.  Otherwise, no particular format is expected as it will be interpreted as a base64 encoded string.
+[8] The `content` format is expected to be a JSON Object if  `content_type` is `application/json`.  Otherwise, no particular format is expected as it will be interpreted as a base64 encoded string.
 
 ### Notes around `user_id`, `sender_id`, and `data_producer_id`
 - The `user_id` field is not the same as the `sender_id` field.
