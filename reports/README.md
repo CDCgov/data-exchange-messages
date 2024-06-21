@@ -96,7 +96,7 @@ All report base content must be in JSON and every report is required to have a b
 Example:
 ```json
 {
-  "schema_version": "1.0.0",
+  "report_schema_version": "1.0.0",
   "upload_id": "97f39f33-e64d-4763-96eb-6186f2891777",
   "data_stream_id": "aims-celr",
   "data_stream_route": "hl7",
@@ -109,34 +109,34 @@ Example:
   "action": "blob-file-copy",
   "content_type": "json",
   "content": {
-    "schema_name": "blob-file-copy",
-    "schema_version": "1.0.0",
+    "content_schema_name": "blob-file-copy",
+    "content_schema_version": "1.0.0",
     "file_source_blob_url": "https://source.blob.core.windows.net/...",
     "file_destination_blob_url": "https://destination.blob.core.windows.net/...",
     "timestamp": "2024-06-19T00:51:08Z"
   }
 }
 ```
-| Field                  | Description                                                                            | Type                  | Format          | Required |
-|------------------------|----------------------------------------------------------------------------------------|-----------------------|-----------------|----------|
-| `schema_version`       | Report schema version; e.g. 1.0.0                                                      | String                | x.y.z           | Yes      |
-| `upload_id`[1]         | Unique upload identifier                                                               | String                | UUID            | Yes      |
-| `user_id` [2]          | User or system id that uploaded the file, not the provider of this report              | String                |                 | No       |
-| `data_stream_id`       | Data stream identifier                                                                 | String                |                 | Yes      |
-| `data_stream_route`    | Data stream route                                                                      | String                |                 | Yes      |
-| `jurisdiction`         | Jurisdiction the report is associated with                                             | String                |                 | Yes      |
-| `dex_ingest_datetime`  | Timestamp of when the file was uploaded                                                | String                | ISO8601         | Yes      |
-| `sender_id`            | Unique identifier of the sender of this data which could be an intermediary            | String                |                 | Yes      |
-| `data_producer_id`     | Unique identifier of the entity that actually created the data this report pertains to | String                |                 | Yes      |
-| `message_metadata` [3] | Null if not applicable                                                                 | Object                | JSON Object     | No       |
-| `status`               | Enumeration: [success, failed]                                                         | String                | Enum            | Yes      |
-| `issues` [4]           | List of issues, null if status is success                                              | Array(JSON Object)    |                 | No       |
-| `stage`                | Name of the stage providing this report                                                | String                |                 | Yes      |
-| `action`               | Action the stage was conducting when providing this report                             | String                |                 | Yes      |
-| `tags` [5]             | Optional tag(s) associated with this report                                            | Map(String to String) |                 | No       |
-| `data` [6]             | Optional data associated with this report                                              | Map(String to String) |                 | No       |
-| `content_type`         | MIME content type of the content field; e.g. JSON, XML, PDF, etc [7]                   | String                |                 | Yes      |
-| `content`              | Content of the report                                                                  | Object or String      | JSON Object [8] | Yes      |
+| Field                   | Description                                                                            | Type                  | Format          | Required |
+|-------------------------|----------------------------------------------------------------------------------------|-----------------------|-----------------|----------|
+| `report_schema_version` | Report schema version; e.g. 1.0.0                                                      | String                | x.y.z           | Yes      |
+| `upload_id`[1]          | Unique upload identifier                                                               | String                | UUID            | Yes      |
+| `user_id` [2]           | User id of the person that uploaded the file                                           | String                |                 | No       |
+| `data_stream_id`        | Data stream identifier                                                                 | String                |                 | Yes      |
+| `data_stream_route`     | Data stream route                                                                      | String                |                 | Yes      |
+| `jurisdiction`          | Jurisdiction the report is associated with                                             | String                |                 | Yes      |
+| `dex_ingest_datetime`   | Timestamp of when the file was uploaded                                                | String                | ISO8601         | Yes      |
+| `sender_id`             | Unique identifier of the sender of this data which could be an intermediary            | String                |                 | Yes      |
+| `data_producer_id`      | Unique identifier of the entity that actually created the data this report pertains to | String                |                 | Yes      |
+| `message_metadata` [3]  | Null if not applicable                                                                 | Object                | JSON Object     | No       |
+| `status`                | Enumeration: [success, failed]                                                         | String                | Enum            | Yes      |
+| `issues` [4]            | List of issues, null if status is success                                              | Array(JSON Object)    |                 | No       |
+| `stage`                 | Name of the stage providing this report                                                | String                |                 | Yes      |
+| `action`                | Action the stage was conducting when providing this report                             | String                |                 | Yes      |
+| `tags` [5]              | Optional tag(s) associated with this report                                            | Map(String to String) |                 | No       |
+| `data` [6]              | Optional data associated with this report                                              | Map(String to String) |                 | No       |
+| `content_type`          | MIME content type of the content field; e.g. JSON, XML, PDF, etc [7]                   | String                |                 | Yes      |
+| `content`               | Content of the report                                                                  | Object or String      | JSON Object [8] | Yes      |
 
 [1] It has been suggested we rename `upload_id` to `transport_id`, ostensibly to cover the case where the upload API is bypassed and files come in through a FHIR subscription or some other means.  Although, `transport_id` is a more generic term, I'm hesitant to rename it as `upload_id` is pretty ubiquitous in its use through the system.
 
@@ -148,7 +148,7 @@ Example:
 |-----------------|---------------------------------------|---------|--------|----------|
 | `message_uuid`  | Unique ID of the message              | String  | UUID   | No       |
 | `message_hash`  | MD5 hash of the message content       | String  |        | No       |
-| `aggegation`    | Enumeration: [single, batch]          | String  | Enum   | No       |
+| `aggegration`   | Enumeration: [single, batch]          | String  | Enum   | No       |
 | `message_index` | Index of the message; e.g. row if csv | Integer |        | No       |
 
 [4] The `issues` format is expected to be an array of JSON Objects.  If not null, the array element shall have the following structure.
@@ -184,6 +184,12 @@ Example:
 
 [8] The `content` format is expected to be a JSON Object if  `content_type` is `json`.  Otherwise, no particular format is expected as it will be interpreted as a base64 encoded string.
 
+### Notes around `user_id`, `sender_id`, and `data_producer_id`
+- The `user_id` field is not the same as the `sender_id` field.
+- When a user uploads a file from the DEX Portal, `user_id` will be the id of the user logged in and `sender_id` will be `portal`.
+- When a file is uploaded from an intermediary, `user_id = null`, `sender_id` will be the id of the intermediary, such as `IZGW`.
+- When a data provider is directly uploading a report, `user_id = null` and `sender_id` = `data_producer_id`.
+
 When a report is accepted a two new fields will be added when the report is persisted:
 - `report_id`: Generated UUID of the report.
 - `timestamp`: Timestamp of when the report was accepted and written to the database.
@@ -192,22 +198,22 @@ When a report is accepted a two new fields will be added when the report is pers
 The base report schema is the basis of every report.  All reports must include it.  It's analogous to an open base class in object-oriented design.  See [this link](base.1.0.0.schema.json) for an example schema definition of the base report using json-schema.org.
 
 ### Concrete Report Schemas
-When `content_type = json`, the `content` will be interpreted as JSON and from within `content` the `schema_name` and `schema_version` will be inspected.  We will use these two values to lookup a matching schema definition for further validation of the report's content.
+When `content_type = json`, the `content` will be interpreted as JSON and from within `content` the `content_schema_name` and `content_schema_version` will be inspected.  We will use these two values to lookup a matching schema definition for further validation of the report's content.
 
 Example:
 ```json
 {
   "content_type": "json",
   "content": {
-    "schema_name": "blob-file-copy",
-    "schema_version": "1.0.0",
+    "content_schema_name": "blob-file-copy",
+    "content_schema_version": "1.0.0",
     "file_source_blob_url": "https://source.blob.core.windows.net/...",
     "file_destination_blob_url": "https://destination.blob.core.windows.net/...",
     "timestamp": "2024-06-19T00:51:08Z"
   } 
 }
 ```
-In the example above, the `schema_name` is `blob-file-copy` and the `schema_version` is `1.0.0`.  The PS API report validation will look for the schema definition file corresponding to these values and run validation.  The file will be named, `blob-file-copy.1.0.0.schema.json`.
+In the example above, the `content_schema_name` is `blob-file-copy` and the `content_schema_version` is `1.0.0`.  The PS API report validation will look for the schema definition file corresponding to these values and run validation.  The file will be named, `blob-file-copy.1.0.0.schema.json`.
 An example of this report schema is pasted below.  
 ```json
 {
@@ -215,12 +221,12 @@ An example of this report schema is pasted below.
   "$id": "https://github.com/cdcent/data-exchange-messages/reports/blob-file-copy",
   "title": "Blob File Copy Report",
   "type": "object",
-  "required": ["schema_name", "schema_version", "file_source_blob_url", "file_destination_blob_url"],
+  "required": ["content_schema_name", "content_schema_version", "file_source_blob_url", "file_destination_blob_url"],
   "properties": {
-    "schema_name": {
+    "content_schema_name": {
       "type": "string"
     },
-    "schema_version": {
+    "content_schema_version": {
       "type": "string"
     },
     "file_source_blob_url": {
@@ -240,7 +246,7 @@ An example of this report schema is pasted below.
 }
 ```
 
-> If a corresponding `schema_name` and `schema_version` schema definition file is not found the report will be rejected.  
+> If a corresponding `content_schema_name` and `content_schema_version` schema definition file is not found the report will be rejected.  
 
 ### Report Content
 All DEX internal service shall provide their **report content** in JSON.  Report content is highly encouraged to be JSON with downstream processing partners, but it does not have to be.  The `content_type` field indicates the format of the content.
@@ -260,14 +266,13 @@ If partners using DEX have downstream processing and want to provide **report co
 
 # Validation
 The PS API will perform the following workflow for validation.
-1. Open the report content as JSON and attempt to read both the `schema_name` and `schema_version` fields.  If the content is not JSON, malformed JSON or either of these fields are missing or empty, the entire report will be rejected.
-2. Verify that the `schema_name` is `base`.  If any other value, the report is rejected.
-3. Lookup the schema definition file corresponding to `base.<schema_version>.schema.json`.  If the file is not found, the report is rejected.
-4. Validate the base report content against the base report schema.  If the validation fails, the report is rejected.
-5. Determine if the `content_type` is JSON.  If so, open the `content` as JSON and attempt to read both the `schema_name` and `schema_version` fields within `content`. If the content is not JSON, malformed JSON or either of these fields are missing or empty, the entire report will be rejected.
-6. Lookup the schema definition file corresponding to `<schema_name>.<schema_version>.schema.json`.  If the file is not found, the report is rejected.
-7. Validate the `content` of the report against the provided report schema.  If the validation fails, the report is rejected.
-8. Report is accepted and recorded.
+1. Open the report content as JSON and attempt to read the `report_schema_version` fields.  If the content is not JSON, malformed JSON or the `report_schema_version` field is missing or empty, the entire report will be rejected.
+2. Lookup the schema definition file corresponding to `base.<report_schema_version>.schema.json`.  If the file is not found, the report is rejected.
+3. Validate the base report content against the base report schema.  If the validation fails, the report is rejected.
+4. Determine if the `content_type` is JSON.  If so, open the `content` as JSON and attempt to read both the `content_schema_name` and `content_schema_version` fields within `content`. If the content is not JSON, malformed JSON or either of these fields are missing or empty, the entire report will be rejected.
+5. Lookup the schema definition file corresponding to `<content_schema_name>.<content_schema_version>.schema.json`.  If the file is not found, the report is rejected.
+6. Validate the `content` of the report against the provided report schema.  If the validation fails, the report is rejected.
+7. Report is accepted and recorded.
 
 ## Scope of Validation
 Verifying that a particular stage and/or action is using an expected report schema is not part of the report validation.  If extra report fields are provided they will not cause the validation to fail.  Rather, those fields and their values will be recorded verbatim along with the rest of the report.
