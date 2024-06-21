@@ -190,7 +190,8 @@ Example:
 - When a file is uploaded from an intermediary, `user_id = null`, `sender_id` will be the id of the intermediary, such as `IZGW`.
 - When a data provider is directly uploading a report, `user_id = null` and `sender_id` = `data_producer_id`.
 
-When a report is accepted a two new fields will be added when the report is persisted:
+### Report Acceptance
+When a report is accepted, two new fields will be added when the report is persisted:
 - `report_id`: Generated UUID of the report.
 - `timestamp`: Timestamp of when the report was accepted and written to the database.
 
