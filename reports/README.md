@@ -118,24 +118,27 @@ Example:
   }
 }
 ```
-| Field                  | Description                                                               | Type                | Format          | Required |
-|------------------------|---------------------------------------------------------------------------|---------------------|-----------------|----------|
-| `schema_name`          | Always `base`                                                             | String              | Fixed           | Yes      |
-| `schema_version`       | Report schema version; e.g. 1.0.0                                         | String              | x.y.z           | Yes      |
-| `upload_id`[1]         | Unique upload identifier                                                  | String              | UUID            | Yes      |
-| `user_id` [2]          | User or system id that uploaded the file, not the provider of this report | String              |                 | No       |
-| `data_stream_id`       | Data stream identifier                                                    | String              |                 | Yes      |
-| `data_stream_route`    | Data stream route                                                         | String              |                 | Yes      |
-| `jurisdiction`         | Jurisdiction the report is associated with                                | String              |                 | Yes      |
-| `dex_ingest_datetime`  | Timestamp of when the file was uploaded                                   | String              | ISO8601         | Yes      |
-| `message_metadata` [3] | Null if not applicable                                                    | Object              | JSON Object     | No       |
-| `status`               | Enumeration: [success, failed]                                            | String              | Enum            | Yes      |
-| `issues` [4]           | List of issues, null if status is success                                 | Array(JSON Object)  |                 | No       |
-| `stage`                | Name of the stage providing this report                                   | String              |                 | Yes      |
-| `action`               | Action the stage was conducting when providing this report                | String              |                 | Yes      |
-| `references` [5]       | Optional reference(s) associated with this report                         | Array(JSON Object)  |                 | No       |
-| `content_type`         | Content type of the content field; e.g. JSON, XML, PDF, etc               | String              |                 | Yes      |
-| `content`              | Content of the report                                                     | Object or String    | JSON Object [6] | Yes      |
+| Field                  | Description                                                                            | Type                  | Format          | Required |
+|------------------------|----------------------------------------------------------------------------------------|-----------------------|-----------------|----------|
+| `schema_name`          | Always `base`                                                                          | String                | Fixed           | Yes      |
+| `schema_version`       | Report schema version; e.g. 1.0.0                                                      | String                | x.y.z           | Yes      |
+| `upload_id`[1]         | Unique upload identifier                                                               | String                | UUID            | Yes      |
+| `user_id` [2]          | User or system id that uploaded the file, not the provider of this report              | String                |                 | No       |
+| `data_stream_id`       | Data stream identifier                                                                 | String                |                 | Yes      |
+| `data_stream_route`    | Data stream route                                                                      | String                |                 | Yes      |
+| `jurisdiction`         | Jurisdiction the report is associated with                                             | String                |                 | Yes      |
+| `dex_ingest_datetime`  | Timestamp of when the file was uploaded                                                | String                | ISO8601         | Yes      |
+| `sender_id`            | Unique identifier of the sender of this data which could be an intermediary            | String                |                 | Yes      |
+| `data_producer_id`     | Unique identifier of the entity that actually created the data this report pertains to | String                |                 | Yes      |
+| `message_metadata` [3] | Null if not applicable                                                                 | Object                | JSON Object     | No       |
+| `status`               | Enumeration: [success, failed]                                                         | String                | Enum            | Yes      |
+| `issues` [4]           | List of issues, null if status is success                                              | Array(JSON Object)    |                 | No       |
+| `stage`                | Name of the stage providing this report                                                | String                |                 | Yes      |
+| `action`               | Action the stage was conducting when providing this report                             | String                |                 | Yes      |
+| `tags` [5]             | Optional tag(s) associated with this report                                            | Map(String to String) |                 | No       |
+| `data` [6]             | Optional data associated with this report                                              | Map(String to String) |                 | No       |
+| `content_type`         | MIME content type of the content field; e.g. JSON, XML, PDF, etc [7]                   | String                |                 | Yes      |
+| `content`              | Content of the report                                                                  | Object or String      | JSON Object [8] | Yes      |
 
 [1] It has been suggested we rename `upload_id` to `transport_id`, ostensibly to cover the case where the upload API is bypassed and files come in through a FHIR subscription or some other means.  Although, `transport_id` is a more generic term, I'm hesitant to rename it as `upload_id` is pretty ubiquitous in its use through the system.
 
@@ -143,12 +146,12 @@ Example:
 
 [3] May be null if not applicable.  If provided the definition is as follows:
 
-| Field              | Description                           | Type    | Format | Required |
-|--------------------|---------------------------------------|---------|--------|----------|
-| `message_uuid`     | Unique ID of the message              | String  | UUID   | No       |
-| `message_hash`     | MD5 hash of the message content       | String  |        | No       |
-| `single_or_batch`  | Enumeration: [single, batch]          | String  | Enum   | No       |
-| `message_index`    | Index of the message; e.g. row if csv | Integer |        | No       |
+| Field           | Description                           | Type    | Format | Required |
+|-----------------|---------------------------------------|---------|--------|----------|
+| `message_uuid`  | Unique ID of the message              | String  | UUID   | No       |
+| `message_hash`  | MD5 hash of the message content       | String  |        | No       |
+| `aggegation`    | Enumeration: [single, batch]          | String  | Enum   | No       |
+| `message_index` | Index of the message; e.g. row if csv | Integer |        | No       |
 
 [4] The `issues` format is expected to be an array of JSON Objects.  If not null, the array element shall have the following structure.
 
@@ -157,41 +160,31 @@ Example:
 | `level`   | Enumeration: [warning, error]                                                               | String  | Enum   | Yes      |
 | `message` | Description of the issue that may also optionally include possible remediation instructions | String  |        | Yes      |
 
-[5] The `references` field is optional and if provided shall contain the following format.
+[5] The `tags` field is optional and if provided shall contain the following format.
 
-| Field   | Description                         | Type    | Format | Required |
-|---------|-------------------------------------|---------|--------|----------|
-| `type`  | Enumeration: [data, tag]            | String  | Enum   | yes      |
-| `key`   | Key or field name for the reference | String  |        | Yes      |
-| `value` | Value of the reference              | String  |        | Yes      |
-
-`data` references example:
+Example:
 ```json
 {
-  "references": [
-    {
-      "type": "data",
-      "key": "blob_url",
-      "value": "https:<ACCOUNT>.blob.core.windows.net/<PATH>/<FILENAME>?<SIGNATURE>"
-    }
-  ]
+  "tags": {
+    "HL7v2 structure validation version": "3.4.2"
+  }
 }
 ```
 
-`tag` references example:
+[6] The `data` field is optional and if provided shall contain the following format.
+
+Example:
 ```json
 {
-  "references": [
-    {
-      "type": "tag",
-      "key": "HL7v2 structure validation version",
-      "value": "3.4.2"
-    }
-  ]
+  "data": {
+    "blob_url": "https:<ACCOUNT>.blob.core.windows.net/<PATH>/<FILENAME>?<SIGNATURE>"
+  }
 }
 ```
 
-[6] The `content` format is expected to be a JSON Object if  `content_type` is `json`.  Otherwise, no particular format is expected as it will be interpreted as a base64 encoded string.
+[7] Content types should be [MIME types](https://www.iana.org/assignments/media-types/media-types.xhtml).  For example, for JSON `content_type` = `application/json`.  For backward compatibility, `json` is also accepted.
+
+[8] The `content` format is expected to be a JSON Object if  `content_type` is `json`.  Otherwise, no particular format is expected as it will be interpreted as a base64 encoded string.
 
 When a report is accepted a two new fields will be added when the report is persisted:
 - `report_id`: Generated UUID of the report.
