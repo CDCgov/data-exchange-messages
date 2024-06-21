@@ -103,11 +103,16 @@ Example:
   "jurisdiction": "TXA",
   "dex_ingest_datetime": "2024-06-19T00:51:08Z",
   "message_metadata": null,
-  "status": "success",
-  "issues": null,
-  "stage": "routing",
-  "action": "blob-file-copy",
-  "content_type": "json",
+  "stage_info": {
+    "service": "routing",
+    "stage": "blob-file-copy",
+    "version": "1.0.3-SNAPSHOT",
+    "status": "success",
+    "issues": null,
+    "start_processing_time": "2024-06-10T12:05:10Z",
+    "end_processing_time": "2024-06-10T12:05:18Z"
+  },
+  "content_type": "application/json",
   "content": {
     "content_schema_name": "blob-file-copy",
     "content_schema_version": "1.0.0",
@@ -129,10 +134,7 @@ Example:
 | `sender_id`             | Unique identifier of the sender of this data which could be an intermediary            | String                |                 | Yes      |
 | `data_producer_id`      | Unique identifier of the entity that actually created the data this report pertains to | String                |                 | Yes      |
 | `message_metadata` [3]  | Null if not applicable                                                                 | Object                | JSON Object     | No       |
-| `status`                | Enumeration: [success, failed]                                                         | String                | Enum            | Yes      |
-| `issues` [4]            | List of issues, null if status is success                                              | Array(JSON Object)    |                 | No       |
-| `stage`                 | Name of the stage providing this report                                                | String                |                 | Yes      |
-| `action`                | Action the stage was conducting when providing this report                             | String                |                 | Yes      |
+| `stage_info` [4]        | Describes the stage that is providing this report                                      | Object                |                 | Yes      |
 | `tags` [5]              | Optional tag(s) associated with this report                                            | Map(String to String) |                 | No       |
 | `data` [6]              | Optional data associated with this report                                              | Map(String to String) |                 | No       |
 | `content_type`          | MIME content type of the content field; e.g. JSON, XML, PDF, etc [7]                   | String                |                 | Yes      |
@@ -140,9 +142,9 @@ Example:
 
 [1] It has been suggested we rename `upload_id` to `transport_id`, ostensibly to cover the case where the upload API is bypassed and files come in through a FHIR subscription or some other means.  Although, `transport_id` is a more generic term, I'm hesitant to rename it as `upload_id` is pretty ubiquitous in its use through the system.
 
-[2] Assumption is that `user_id` will be provided by the Upload API and recorded in the blob file properties.
+[2] The `user_id` field will originate from the Upload API and recorded in the blob file properties.
 
-[3] May be null if not applicable.  If provided the definition is as follows:
+[3] The `message_metadata` may be null if not applicable.  If provided the definition is as follows:
 
 | Field           | Description                           | Type    | Format | Required |
 |-----------------|---------------------------------------|---------|--------|----------|
@@ -151,7 +153,19 @@ Example:
 | `aggegration`   | Enumeration: [single, batch]          | String  | Enum   | No       |
 | `message_index` | Index of the message; e.g. row if csv | Integer |        | No       |
 
-[4] The `issues` format is expected to be an array of JSON Objects.  If not null, the array element shall have the following structure.
+[4] The `stage_info` format is expected to be a JSON Object with the following fields.
+
+| Field                   | Description                                                | Type               | Format  | Required |
+|-------------------------|------------------------------------------------------------|--------------------|---------|----------|
+| `service`               | Name of the service associated with this report            | String             |         | Yes      |
+| `stage`                 | Action the stage was conducting when providing this report | String             |         | Yes      |
+| `version`               | Version of the stage providing this report                 | String             |         | No       |
+| `status`                | Enumeration: [success, failed]                             | String             | Enum    | Yes      |
+| `issues` [5a]           | List of issues, null if status is success                  | Array(JSON Object) |         | No       |
+| `start_processing_time` | Timestamp of when this stage started work                  | String             | ISO8601 | Yes      |
+| `end_processing_time`   | Timestamp of when this stage finished work                 | String             | ISO8601 | Yes      |
+
+[4a] The `issues` format is expected to be an array of JSON Objects.  If not null, the array element shall have the following structure.
 
 | Field     | Description                                                                                 | Type    | Format | Required |
 |-----------|---------------------------------------------------------------------------------------------|---------|--------|----------|
