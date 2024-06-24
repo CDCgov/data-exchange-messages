@@ -1,15 +1,49 @@
 {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://github.com/cdcent/data-exchange-messages/reports/base",
-    "title": "HL7v2 Redaction Report",
-    "type": "object",
-    "required": ["schema_name", "schema_version"],
-    "properties": {
-        "schema_name": {
-            "type": "string"
-        },
-        "schema_version": {
-            "type": "string"
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/cdcent/data-exchange-messages/reports/hl7-redaction-report",
+  "title": "HL7v2 Redactor Schema",
+  "type": "object",
+  "properties": {
+    "content_schema_name": {
+      "type": "string",
+      "const": "DEX HL7v2 REDACTOR"
+    },
+    "content_schema_version": {
+      "type": "string",
+      "const": "2.0.0"
+    },
+    "report": {
+      "type": "object",
+      "properties": {
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "rule": {
+                "type": "string"
+              },
+              "lineNumber": {
+                "type": "integer"
+              },
+              "fieldIndex": {
+                "type": "integer"
+              }
+            },
+            "required": ["path", "rule", "lineNumber"]
+          }
         }
+      }
+    },
+    "configs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     }
+  },
+  "required": ["content_schema_name", "content_schema_version", "report", "configs"]
 }
