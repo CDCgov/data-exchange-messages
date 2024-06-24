@@ -3,7 +3,7 @@
     "$id": "https://github.com/cdcent/data-exchange-messages/reports/base",
     "title": "Base Report",
     "type": "object",
-    "required": ["schema_name", "schema_version", "upload_id", "data_stream_id", "data_stream_route", "jurisdiction", "dex_ingest_timestamp", "status", "stage", "action", "content_type"],
+    "required": ["report_schema_version", "upload_id", "data_stream_id", "data_stream_route", "jurisdiction", "dex_ingest_timestamp", "sender_id", "data_producer_id", "status", "stage_info", "content_type"],
     "if": {
         "properties": {
             "content_type": {
@@ -19,10 +19,7 @@
         }
     },
     "properties": {
-        "schema_name": {
-            "type": "string"
-        },
-        "schema_version": {
+        "report_schema_version": {
             "type": "string"
         },
         "upload_id": {
@@ -42,6 +39,12 @@
         "jurisdiction": {
             "type": "string"
         },
+        "sender_id": {
+            "type": "string"
+        },
+        "data_producer_id": {
+            "type": "string"
+        },
         "dex_ingest_timestamp": {
             "$ref": "#/$defs/timestamp"
         },
@@ -49,33 +52,20 @@
             "$ref": "#/$defs/messageMetadata",
             "description": "Metadata associated with the message this report belong to."
         },
-        "status": {
-            "type": "string",
-            "enum": ["success", "failed"]
-        },
-        "issues": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "level": {
-                        "type": "string",
-                        "enum": [
-                            "warning",
-                            "error"
-                        ]
-                    },
-                    "message": {
-                        "type": "string"
-                    }
-                }
-            }
+        "stage_info": {
+            "$ref": "#/$defs/stageInfo",
+            "description": "Describes the stage that is providing this report."
         },
         "stage": {
             "type": "string"
         },
-        "action": {
-            "type": "string"
+        "tags": {
+            "$ref": "#/$defs/keyValueMap",
+            "description": "Optional tag(s) associated with this report."
+        },
+        "data": {
+            "$ref": "#/$defs/keyValueMap",
+            "description": "Optional data associated with this report."
         },
         "content_type": {
             "type": "string"
@@ -101,7 +91,7 @@
                     "type": "string",
                     "description": "MD5 hash of the message content."
                 },
-                "single_or_batch": {
+                "aggregation": {
                     "type": "string",
                     "enum": ["single", "batch"],
                     "description": "Enumeration: [single, batch]."
@@ -112,13 +102,59 @@
                 }
             }
         },
+        "stageInfo": {
+            "service": {
+                "type": "string",
+                "description": "Name of the service associated with this report."
+            },
+            "stage": {
+                "type": "string",
+                "description": "Action the stage was conducting when providing this report."
+            },
+            "version": {
+                "type": "string",
+                "description": "Version of the stage providing this report"
+            },
+            "status": {
+                "type": "string",
+                "enum": ["success", "failed"]
+            },
+            "issues": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "level": {
+                            "type": "string",
+                            "enum": [
+                                "warning",
+                                "error"
+                            ]
+                        },
+                        "message": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "start_processing_time": {
+                "$ref": "#/$defs/timestamp"
+            },
+            "end_processing_time": {
+                "$ref": "#/$defs/timestamp"
+            }
+        },
+        "keyValueMap": {
+            "type" : "object",
+            "existingJavaType" : "java.util.Map<String, Any>"
+        },
         "jsonContent": {
             "type": "object",
             "properties": {
-                "schema_name": {
+                "content_schema_name": {
                     "type": "string"
                 },
-                "schema_version": {
+                "content_schema_version": {
                     "type": "string"
                 }
             }
