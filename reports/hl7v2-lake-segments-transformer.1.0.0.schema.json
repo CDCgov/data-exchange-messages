@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HL7 v2 Message Schema",
+  "type": "object",
+  "properties": {
+    "content_schema_name": {
+      "const": "DEX HL7v2 Lake of Segments"
+    },
+    "content_schema_version": {
+      "type": "string",
+      "const": "2.0.0"
+    },
+    "output": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "segment": {
+            "type": "string"
+          },
+          "segment_number": {
+            "type": "integer"
+          },
+          "segment_id": {
+            "type": "string"
+          },
+          "parent_segments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+              
+            }
+          }
+        },
+        "required": ["segment", "segment_number", "segment_id", "parent_segments"]
+      }
+    },
+    "configs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": ["content_schema_name", "content_schema_version", "output"]
+}
