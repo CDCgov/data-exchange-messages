@@ -1,0 +1,15 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://github.com/cdcent/data-exchange-messages/reports/base",
+    "title": "HL7v2 JSON Lake Transformer Report",
+    "type": "object",
+    "required": ["schema_name", "schema_version"],
+    "properties": {
+        "schema_name": {
+            "type": "string"
+        },
+        "schema_version": {
+            "type": "string"
+        }
+    }
+}
