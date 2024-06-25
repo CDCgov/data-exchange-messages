@@ -1,21 +1,21 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/cdcent/data-exchange-messages/reports/hl7-validation-report",
-  "title": "HL7v2 Vlidation Report Schema", 
+  "title": "HL7v2 Validation Report Schema",
   "type": "object",
   "properties": {
     "content_schema_name": {
       "type" : "string",
-      "const": "DEX HL7v2 Validatinon Report"
+      "const": "DEX HL7v2 Validation Report"
     },
     "content_schema_version": {"type": "string", "const": "2.0.0"},
     "report": {
       "type": "object",
       "properties": {
         "entries": {
-          "structure": {"$ref": "#/$defs/reportItem "},
-          "content"  : {"$ref": "#/$defs/reportItem "},
-          "value-set": {"$ref": "#/$defs/reportItem "}
+          "structure": {"$ref": "#/$defs/reportItem"},
+          "content"  : {"$ref": "#/$defs/reportItem"},
+          "value-set": {"$ref": "#/$defs/reportItem"}
         },
         "error-count": {
           "type": "object",
