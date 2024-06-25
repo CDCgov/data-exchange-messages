@@ -3,12 +3,12 @@
     "$id": "https://github.com/cdcent/data-exchange-messages/reports/blob-file-copy",
     "title": "Blob File Copy Report",
     "type": "object",
-    "required": ["schema_name", "schema_version", "file_source_blob_url", "file_destination_blob_url"],
+    "required": ["content_schema_name", "content_schema_version", "file_source_blob_url", "file_destination_blob_url"],
     "properties": {
-        "schema_name": {
+        "content_schema_name": {
             "type": "string"
         },
-        "schema_version": {
+        "content_schema_version": {
             "type": "string"
         },
         "file_source_blob_url": {
