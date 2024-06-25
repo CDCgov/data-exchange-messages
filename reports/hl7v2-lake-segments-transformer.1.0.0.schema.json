@@ -10,31 +10,7 @@
       "type": "string",
       "const": "2.0.0"
     },
-    "output": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "segment": {
-            "type": "string"
-          },
-          "segment_number": {
-            "type": "integer"
-          },
-          "segment_id": {
-            "type": "string"
-          },
-          "parent_segments": {
-            "type": "array",
-            "items": {
-              "type": "string"
-              
-            }
-          }
-        },
-        "required": ["segment", "segment_number", "segment_id", "parent_segments"]
-      }
-    },
+
     "configs": {
       "type": "array",
       "items": {
@@ -42,5 +18,5 @@
       }
     }
   },
-  "required": ["content_schema_name", "content_schema_version", "output"]
+  "required": ["content_schema_name", "content_schema_version"]
 }
