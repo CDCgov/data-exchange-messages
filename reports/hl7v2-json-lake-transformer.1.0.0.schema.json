@@ -3,13 +3,19 @@
     "$id": "https://github.com/cdcent/data-exchange-messages/reports/base",
     "title": "HL7v2 JSON Lake Transformer Report",
     "type": "object",
-    "required": ["schema_name", "schema_version"],
+    "required": ["content_schema_name", "content_schema_version"],
     "properties": {
-        "schema_name": {
+        "content_schema_name": {
             "type": "string"
         },
-        "schema_version": {
+        "content_schema_version": {
             "type": "string"
+        },
+        "configs": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
         }
     }
 }
