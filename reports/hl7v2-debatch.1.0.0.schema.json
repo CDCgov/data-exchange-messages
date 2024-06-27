@@ -16,6 +16,22 @@
     "report": {
 	  "type": "object",
 	  "properties": {
+		"ingested_file_path": {
+		    "type": "string"
+		},
+		"ingested_file_timestamp": {
+		    "type": "string"
+		},
+		"ingested_file_size": {
+		    "type": "integer"
+		},
+		"received_filename": {
+		   "type": "string"
+		},
+		"supporting_metadata": {
+		   "$ref": "#/$defs/keyValueMap",
+		   "description": "Extra metadata provided by the sender"
+        	},
 		"aggregation": {
 		  "type": "string",
 		  "enum": ["SINGLE", "BATCH"]
@@ -33,6 +49,13 @@
 		  }
 		}
 	  }
-  }
+  	}
+}
+	"$defs": {
+ 		"keyValueMap": {
+            		"type" : "object",
+            		"existingJavaType" : "java.util.Map<String, Any>"
+        	}
+	}
 }
 
