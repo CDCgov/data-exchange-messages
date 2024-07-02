@@ -129,10 +129,10 @@ Example:
 | `user_id` [2]           | User id of the person that uploaded the file                                           | String                |                 | No       |
 | `data_stream_id`        | Data stream identifier                                                                 | String                |                 | Yes      |
 | `data_stream_route`     | Data stream route                                                                      | String                |                 | Yes      |
-| `jurisdiction`          | Jurisdiction the report is associated with                                             | String                |                 | Yes      |
+| `jurisdiction`          | Jurisdiction the report is associated with                                             | String                |                 | No       |
 | `dex_ingest_datetime`   | Timestamp of when the file was uploaded                                                | String                | ISO8601         | Yes      |
 | `sender_id`             | Unique identifier of the sender of this data which could be an intermediary            | String                |                 | Yes      |
-| `data_producer_id`      | Unique identifier of the entity that actually created the data this report pertains to | String                |                 | Yes      |
+| `data_producer_id`      | Unique identifier of the entity that actually created the data this report pertains to | String                |                 | No       |
 | `message_metadata` [3]  | Null if not applicable                                                                 | Object                | JSON Object     | No       |
 | `stage_info` [4]        | Describes the stage that is providing this report                                      | Object                |                 | Yes      |
 | `tags` [5]              | Optional tag(s) associated with this report                                            | Map(String to String) |                 | No       |
