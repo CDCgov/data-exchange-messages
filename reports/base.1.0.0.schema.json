@@ -56,9 +56,6 @@
             "$ref": "#/$defs/stageInfo",
             "description": "Describes the stage that is providing this report."
         },
-        "stage": {
-            "type": "string"
-        },
         "tags": {
             "$ref": "#/$defs/keyValueMap",
             "description": "Optional tag(s) associated with this report."
