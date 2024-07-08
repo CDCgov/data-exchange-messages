@@ -65,7 +65,7 @@
 				"message_index": {
 					"type": "integer"
 				},
-				"error_meesage": {
+				"error_message": {
 					"type": "string"
 				}
 			}
