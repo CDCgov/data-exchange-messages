@@ -90,8 +90,8 @@
                 },
                 "aggregation": {
                     "type": "string",
-                    "enum": ["single", "batch"],
-                    "description": "Enumeration: [single, batch]."
+                    "enum": ["SINGLE", "BATCH"],
+                    "description": "Enumeration: [SINGLE, BATCH]."
                 },
                 "message_index": {
                     "type": "integer",
@@ -114,7 +114,7 @@
             },
             "status": {
                 "type": "string",
-                "enum": ["success", "failed"]
+                "enum": ["SUCCESS", "FAILURE"]
             },
             "issues": {
                 "type": "array",
