@@ -45,7 +45,7 @@
 		"error_messages": {
 		  "type": "array",
 		  "items": {
-			"type": "string"
+			"$ref": '#/$defs/ingest_error"
 		  }
 		}
 	  }
@@ -55,7 +55,21 @@
  		"keyValueMap": {
             		"type" : "object",
             		"existingJavaType" : "java.util.Map<String, Any>"
-        	}
+        	},
+		"ingest_error": {
+			"type": "object",
+			"properties": {
+				"message_uuid": {
+					"type": "string"
+				}.
+				"message_index": {
+					"type": "integer"
+				},
+				"error_meesage": {
+					"type": "string"
+				}
+			}
+		}
 	}
 }
 
