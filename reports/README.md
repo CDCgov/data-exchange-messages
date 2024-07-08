@@ -160,7 +160,7 @@ Example:
 | `service`               | Name of the service associated with this report            | String             |         | Yes      |
 | `stage`                 | Action the stage was conducting when providing this report | String             |         | Yes      |
 | `version`               | Version of the stage providing this report                 | String             |         | No       |
-| `status`                | Enumeration: [SUCCESS, FAILED]                             | String             | Enum    | Yes      |
+| `status`                | Enumeration: [SUCCESS, FAILURE]                            | String             | Enum    | Yes      |
 | `issues` [4a]           | List of issues, null if status is success                  | Array(JSON Object) |         | No       |
 | `start_processing_time` | Timestamp of when this stage started work                  | String             | ISO8601 | Yes      |
 | `end_processing_time`   | Timestamp of when this stage finished work                 | String             | ISO8601 | Yes      |
