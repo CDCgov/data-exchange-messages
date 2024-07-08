@@ -45,7 +45,7 @@
 		"error_messages": {
 		  "type": "array",
 		  "items": {
-			"$ref": '#/$defs/ingest_error"
+			"$ref": "#/$defs/ingest_error"
 		  }
 		}
 	  }
