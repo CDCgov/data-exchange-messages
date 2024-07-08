@@ -36,7 +36,7 @@ Response of accepted report:
   "data": {
     "addReport": {
       "reportId": "47286e48-2a22-4e26-930e-c7b4115b0cf1",
-      "result": "success",
+      "result": "SUCCESS",
       "issues": null
     }
   }
@@ -48,7 +48,7 @@ Response of rejected report:
   "data": {
     "addReport": {
       "reportId": null,
-      "result": "failed",
+      "result": "FAILURE",
       "issues": [
         "Missing required field, dex_ingest_datetime"
       ]
@@ -107,7 +107,7 @@ Example:
     "service": "routing",
     "stage": "blob-file-copy",
     "version": "1.0.3-SNAPSHOT",
-    "status": "success",
+    "status": "SUCCESS",
     "issues": null,
     "start_processing_time": "2024-06-10T12:05:10Z",
     "end_processing_time": "2024-06-10T12:05:18Z"
@@ -150,7 +150,7 @@ Example:
 |-----------------|---------------------------------------|---------|--------|----------|
 | `message_uuid`  | Unique ID of the message              | String  | UUID   | No       |
 | `message_hash`  | MD5 hash of the message content       | String  |        | No       |
-| `aggegration`   | Enumeration: [single, batch]          | String  | Enum   | No       |
+| `aggegration`   | Enumeration: [SINGLE, BATCH]          | String  | Enum   | No       |
 | `message_index` | Index of the message; e.g. row if csv | Integer |        | No       |
 
 [4] The `stage_info` format is expected to be a JSON Object with the following fields.
@@ -160,7 +160,7 @@ Example:
 | `service`               | Name of the service associated with this report            | String             |         | Yes      |
 | `stage`                 | Action the stage was conducting when providing this report | String             |         | Yes      |
 | `version`               | Version of the stage providing this report                 | String             |         | No       |
-| `status`                | Enumeration: [success, failed]                             | String             | Enum    | Yes      |
+| `status`                | Enumeration: [SUCCESS, FAILURE]                            | String             | Enum    | Yes      |
 | `issues` [4a]           | List of issues, null if status is success                  | Array(JSON Object) |         | No       |
 | `start_processing_time` | Timestamp of when this stage started work                  | String             | ISO8601 | Yes      |
 | `end_processing_time`   | Timestamp of when this stage finished work                 | String             | ISO8601 | Yes      |
@@ -169,7 +169,7 @@ Example:
 
 | Field     | Description                                                                                 | Type    | Format | Required |
 |-----------|---------------------------------------------------------------------------------------------|---------|--------|----------|
-| `level`   | Enumeration: [warning, error]                                                               | String  | Enum   | Yes      |
+| `level`   | Enumeration: [WARNING, ERROR]                                                               | String  | Enum   | Yes      |
 | `message` | Description of the issue that may also optionally include possible remediation instructions | String  |        | Yes      |
 
 [5] The `tags` field is optional and if provided shall contain the following format.
@@ -279,6 +279,7 @@ If partners using DEX have downstream processing and want to provide **report co
 | hl7v2-structure-validation      | [schema.1.0.0](hl7v2-structure-validation.1.0.0.schema.json)       | 1.0.0          | hl7v2 / structure-validator             |
 | hl7v2-json-lake-transformer     | [schema.1.0.0](hl7v2-json-lake-transformer.1.0.0.schema.json)      | 1.0.0          | hl7v2 / json-lake-transformer           |
 | hl7v2-lake-segments-transformer | [schema.1.0.0](hl7v2-lake-segments-transformer.1.0.0.schema.json)  | 1.0.0          | hl7v2 / lake-segments-transformer       |
+| buzz-file-capture               | [schema.1.0.0](buzz-file-capture.1.0.0.schema.json)                | 1.0.0          | buzz app                                |
 
 # Validation
 The PS API will perform the following workflow for validation.
@@ -584,11 +585,11 @@ GraphQL Response:
           "dataStreamId": "aims-celr",
           "dataStreamRoute": "csv",
           "jurisdiction": "MD",
-          "status": "failed",
+          "status": "FAILURE",
           "messageMetadata": {
             "messageUUID": "xyz-456",
             "messageHash": "234234ed423",
-            "singleOrBatch": "single",
+            "singleOrBatch": "SINGLE",
             "messageIndex": 1
           },
           "issues": [
