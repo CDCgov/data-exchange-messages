@@ -124,8 +124,8 @@
                         "level": {
                             "type": "string",
                             "enum": [
-                                "warning",
-                                "error"
+                                "WARNING",
+                                "ERROR"
                             ]
                         },
                         "message": {
