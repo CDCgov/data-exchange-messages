@@ -6,10 +6,12 @@
     "required": ["content_schema_name", "content_schema_version"],
     "properties": {
         "content_schema_name": {
-            "type": "string"
+            "type": "string",
+            "const": "DEX HL7v2 Json Lake"
         },
         "content_schema_version": {
-            "type": "string"
+            "type": "string",
+            "const": "2.0.0"
         },
         "configs": {
             "type": "array",
