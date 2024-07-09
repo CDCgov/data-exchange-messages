@@ -50,7 +50,7 @@
 		}
 	  }
   	}
-}
+},
 	"$defs": {
  		"keyValueMap": {
             		"type" : "object",
@@ -61,7 +61,7 @@
 			"properties": {
 				"message_uuid": {
 					"type": "string"
-				}.
+				},
 				"message_index": {
 					"type": "integer"
 				},
