@@ -7,7 +7,7 @@
     "properties": {
         "content_schema_name": {
             "type": "string",
-            "const": "DEX HL7v2 Json Lake"
+            "const": "hl7v2-json-lake-transformer.1.0.0.schema.json"
         },
         "content_schema_version": {
             "type": "string",
