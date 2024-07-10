@@ -6,7 +6,7 @@
   "properties": {
     "content_schema_name": {
       "type" : "string",
-      "const": "DEX HL7v2 Validation Report"
+      "const": "hl7v2-structure-validation.1.0.0.schema.json"
     },
     "content_schema_version": {"type": "string", "const": "2.0.0"},
     "report": {
