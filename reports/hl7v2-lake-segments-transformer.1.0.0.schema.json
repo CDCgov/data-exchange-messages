@@ -4,7 +4,7 @@
   "type": "object",
   "properties": {
     "content_schema_name": {
-      "const": "DEX HL7v2 Lake of Segments"
+      "const": "hl7v2-lake-segments-transformer.1.0.0.schema.json"
     },
     "content_schema_version": {
       "type": "string",
