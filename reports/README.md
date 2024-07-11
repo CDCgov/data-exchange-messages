@@ -268,18 +268,18 @@ All DEX internal service shall provide their **report content** in JSON.  Report
 
 If partners using DEX have downstream processing and want to provide **report content** in XML, PDF or some other format they may.  If a partner provides any content format other than JSON it will be recorded in the `content` field as a base64 encoded string.
 
-| Report Type                     | Schemas Available                                                  | Latest Version | Used by stage / action                  |
-|---------------------------------|--------------------------------------------------------------------|----------------|-----------------------------------------|
-| base                            | [schema.1.0.0](base.1.0.0.schema.json)                             | 1.0.0          | all / all                               |
-| metadata-verify                 | [schema.1.0.0](metadata-verify.1.0.0.schema.json)                  | 1.0.0          | upload / metadata-verify                |
-| upload-status                   | [schema.1.0.0](upload-status.1.0.0.schema.json)                    | 1.0.0          | upload / upload-status                  |
-| blob-file-copy                  | [schema.1.0.0](blob-file-copy.1.0.0.schema.json)                   | 1.0.0          | routing / file-copy, upload / file-copy |
-| hl7v2-debatch                   | [schema.1.0.0](hl7v2-debatch.1.0.0.schema.json)                    | 1.0.0          | hl7v2 / receiver                        |
-| hl7v2-redact                    | [schema.1.0.0](hl7v2-redact.1.0.0.schema.json)                     | 1.0.0          | hl7v2 / redactor                        |
-| hl7v2-structure-validation      | [schema.1.0.0](hl7v2-structure-validation.1.0.0.schema.json)       | 1.0.0          | hl7v2 / structure-validator             |
-| hl7v2-json-lake-transformer     | [schema.1.0.0](hl7v2-json-lake-transformer.1.0.0.schema.json)      | 1.0.0          | hl7v2 / json-lake-transformer           |
-| hl7v2-lake-segments-transformer | [schema.1.0.0](hl7v2-lake-segments-transformer.1.0.0.schema.json)  | 1.0.0          | hl7v2 / lake-segments-transformer       |
-| buzz-file-capture               | [schema.1.0.0](buzz-file-capture.1.0.0.schema.json)                | 1.0.0          | buzz app                                |
+| Report Type                     | Schemas Available                                                              | Latest Version | Used by stage / action                  |
+|---------------------------------|--------------------------------------------------------------------------------|----------------|-----------------------------------------|
+| base                            | [schema.0.0.1](base.1.0.0.schema.json), [schema.1.0.0](base.1.0.0.schema.json) | 1.0.0          | all / all                               |
+| metadata-verify                 | [schema.1.0.0](metadata-verify.1.0.0.schema.json)                              | 1.0.0          | upload / metadata-verify                |
+| upload-status                   | [schema.1.0.0](upload-status.1.0.0.schema.json)                                | 1.0.0          | upload / upload-status                  |
+| blob-file-copy                  | [schema.1.0.0](blob-file-copy.1.0.0.schema.json)                               | 1.0.0          | routing / file-copy, upload / file-copy |
+| hl7v2-debatch                   | [schema.1.0.0](hl7v2-debatch.1.0.0.schema.json)                                | 1.0.0          | hl7v2 / receiver                        |
+| hl7v2-redact                    | [schema.1.0.0](hl7v2-redact.1.0.0.schema.json)                                 | 1.0.0          | hl7v2 / redactor                        |
+| hl7v2-structure-validation      | [schema.1.0.0](hl7v2-structure-validation.1.0.0.schema.json)                   | 1.0.0          | hl7v2 / structure-validator             |
+| hl7v2-json-lake-transformer     | [schema.1.0.0](hl7v2-json-lake-transformer.1.0.0.schema.json)                  | 1.0.0          | hl7v2 / json-lake-transformer           |
+| hl7v2-lake-segments-transformer | [schema.1.0.0](hl7v2-lake-segments-transformer.1.0.0.schema.json)              | 1.0.0          | hl7v2 / lake-segments-transformer       |
+| buzz-file-capture               | [schema.1.0.0](buzz-file-capture.1.0.0.schema.json)                            | 1.0.0          | buzz app                                |
 
 # Validation
 The PS API will perform the following workflow for validation.
