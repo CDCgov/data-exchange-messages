@@ -270,7 +270,7 @@ If partners using DEX have downstream processing and want to provide **report co
 
 | Report Type                     | Schemas Available                                                              | Latest Version | Used by stage / action                  |
 |---------------------------------|--------------------------------------------------------------------------------|----------------|-----------------------------------------|
-| base                            | [schema.0.0.1](base.1.0.0.schema.json), [schema.1.0.0](base.1.0.0.schema.json) | 1.0.0          | all / all                               |
+| base                            | [schema.0.0.1](base.0.0.1.schema.json), [schema.1.0.0](base.1.0.0.schema.json) | 1.0.0          | all / all                               |
 | metadata-verify                 | [schema.1.0.0](metadata-verify.1.0.0.schema.json)                              | 1.0.0          | upload / metadata-verify                |
 | upload-status                   | [schema.1.0.0](upload-status.1.0.0.schema.json)                                | 1.0.0          | upload / upload-status                  |
 | blob-file-copy                  | [schema.1.0.0](blob-file-copy.1.0.0.schema.json)                               | 1.0.0          | routing / file-copy, upload / file-copy |
