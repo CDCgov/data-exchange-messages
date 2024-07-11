@@ -6,11 +6,11 @@
   "properties": {
     "content_schema_name": {
       "type": "string",
-      "const": "hl7v2-redact.1.0.0.schema.json"
+      "const": "hl7v2-redact"
     },
     "content_schema_version": {
       "type": "string",
-      "const": "2.0.0"
+      "const": "1.0.0"
     },
     "report": {
       "type": "object",
