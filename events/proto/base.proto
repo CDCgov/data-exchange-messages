@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+message System {
+    string name = 1;
+    string state = 2;
+    string instanceID = 3;
+    string repository = 4;
+    string githash = 5;
+}
+
+// Do we need a better name for the piece of data we're delivering?
+message MessageInfo {
+    string id = 1;
+    string uri = 2;
+    string hash = 3;
+}
+
+message Header {
+    string id = 1;
+    string parent_id = 2;
+    Timestamp timestamp = 3;
+    System system = 4;
+}

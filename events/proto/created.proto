@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message Created {
+    Header header = 1;
+    MessageInfo message = 2;
+}
