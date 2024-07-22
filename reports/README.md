@@ -317,16 +317,17 @@ Data projections are not defined by schemas in the way that reports are.  The de
 
 GraphQL Request:
 ```graphql
-query GetUploads($dataStreamId: String!, $dataStreamRoute: String!, $dateStart: String!) {
+query GetUploads($dataStreamId: String!, $dataStreamRoute: String!, $dateStart: String?, $dateEnd: String?, $filename: String?, $sortBy: String?, $sortOrder: String?) {
   uploads(
     dataStreamId: $dataStreamId
     dataStreamRoute: $dataStreamRoute
     dateStart: $dateStart
-    dateEnd: null
+    dateEnd: $dateEnd
+    filename: $filename
     pageSize: 20
     pageNumber: 1
-    sortBy: null
-    sortOrder: null
+    sortBy: $sortBy
+    sortOrder: $sortOrder
   ) {
     summary {
       numberOfPages
@@ -353,8 +354,20 @@ query GetUploads($dataStreamId: String!, $dataStreamRoute: String!, $dateStart: 
   }
 }
 ```
-- `jurisdictions`: array of all values of jurisdictions in this dataset
-- `senderIds`: array of all values of senderIds in this dataset
+Input parameters:
+- `sortBy`: Optional and if provided can be:
+- `sortOrder`: Optional and if provided can be `asc` or `desc`.  Default is `desc`.
+- `filename`: Optional and if provided will filter responses for the given filename
+
+Output values:
+- `summary.jurisdictions`: Array of all values of jurisdictions in this dataset
+- `summary.senderIds`: Array of all values of senderIds in this dataset
+- `items.jurisdiction`: Jurisdiction associated with this upload
+- `items.senerId`: Sender ID associated with this upload
+- `items.status`: Overall status of the upload, which is an enum of [ `FAILED`, `PROCESSING`, `DELIVERED` ].
+  - Status is `FAILED` if the status of any of the upload actions have failed.
+  - Status is `PROCESSING` if none of the upload actions are failed or delivered.
+  - Status is `DELIVERED` if at least one blob file copy report exists and is successful.
 
 GraphQL Response:
 ```json
@@ -362,16 +375,20 @@ GraphQL Response:
   "data": {
     "uploads": {
       "summary": {
-        "page_number": 1,
-        "number_of_pages": 1,
-        "page_size": 20,
-        "total_items": 7
+        "pageNumber": 1,
+        "numberOfPages": 1,
+        "pageSize": 20,
+        "totalItems": 7,
+        "jurisdictions": [ "TX", "AL" ],
+        "senderIds": [ "izgw", "portal" ]
       },
       "items": [
         {
-          "status": "FailedMetadata",
+          "status": "FAILED",
           "filename": "some_upload1.csv",
           "upload_id": "933e7f15-67ab-4ab7-979c-b7f58870f483",
+          "jurisdiction": "TX",
+          "sender_id": "izgw",
           "metadata": {
             "meta_field2": "value3"
           },
@@ -382,13 +399,15 @@ GraphQL Response:
           "timestamp": "2024-03-21T22:03:39.469Z"
         },
         {
-          "status": "Uploading",
+          "status": "PROCESSING",
           "percent_complete": 0.0,
           "filename": "some_upload1.csv",
           "file_size_bytes": 27472691,
-          "bytes_uploaded": 0,
+          "bytes_uploaded": 5462,
           "upload_id": "1d4ea7e7-4190-4f8c-b874-b5a6235e8f15",
-          "time_uploading_sec": -1.698290295046E9,
+          "jurisdiction": "AL",
+          "sender_id": "portal",
+          "time_uploading_sec": 1.065,
           "metadata": {
             "filename": "10MB-test-file",
             "filetype": "text/plain",
@@ -405,12 +424,14 @@ GraphQL Response:
           "timestamp": "2024-03-08T23:38:21.493Z"
         },
         {
-          "status": "UploadComplete",
+          "status": "DELIVERED",
           "percent_complete": 100.0,
           "filename": "some_upload1.csv",
           "file_size_bytes": 27472691,
           "bytes_uploaded": 27472691,
           "upload_id": "e4361c73-348b-46f2-aad8-3043f8922f1d",
+          "jurisdiction": "TX",
+          "senderId": "izgw",
           "time_uploading_sec": 4.312,
           "metadata": {
             "filename": "10MB-test-file",
@@ -428,12 +449,14 @@ GraphQL Response:
           "timestamp": "2024-05-25T17:48:50.678Z"
         },
         {
-          "status": "UploadComplete",
+          "status": "DELIVERED",
           "percent_complete": 100.0,
           "filename": "some_upload1.csv",
           "file_size_bytes": 27472691,
           "bytes_uploaded": 27472691,
           "upload_id": "0bd88f4a-1727-4d7b-bc5d-0a09c230e4a6",
+          "jurisdiction": "TX",
+          "senderId": "izgw",
           "time_uploading_sec": 4.312,
           "metadata": {
             "filename": "10MB-test-file",
@@ -451,13 +474,15 @@ GraphQL Response:
           "timestamp": "2024-03-22T01:44:10.576Z"
         },
         {
-          "status": "Uploading",
+          "status": "DELIVERED",
           "percent_complete": 0.0,
           "filename": "some_upload1.csv",
           "file_size_bytes": 27472691,
           "bytes_uploaded": 0,
           "upload_id": "69a671bf-16f5-43b6-b6fa-b0a0e602e281",
-          "time_uploading_sec": -1.698290295046E9,
+          "jurisdiction": "TX",
+          "senderId": "izgw",
+          "time_uploading_sec": 4.312,
           "metadata": {
             "filename": "10MB-test-file",
             "filetype": "text/plain",
@@ -474,7 +499,7 @@ GraphQL Response:
           "timestamp": "2024-03-07T00:18:51.426Z"
         },
         {
-          "status": "FailedMetadata",
+          "status": "FAILED",
           "filename": "some_upload1.csv",
           "upload_id": "aaf28167-207e-4a26-b760-485bc1e29f21",
           "metadata": {
@@ -487,12 +512,14 @@ GraphQL Response:
           "timestamp": "2024-03-22T01:43:33.519Z"
         },
         {
-          "status": "UploadComplete",
+          "status": "DELIVERED",
           "percent_complete": 100.0,
           "filename": "some_upload1.csv",
           "file_size_bytes": 27472691,
           "bytes_uploaded": 27472691,
           "upload_id": "d32a0a25-fb91-4726-a13f-f8052b1b6f1b",
+          "jurisdiction": "TX",
+          "senderId": "izgw",
           "time_uploading_sec": 4.312,
           "metadata": {
             "filename": "10MB-test-file",
@@ -520,27 +547,26 @@ Submission details contain all the known details for a particular upload.  It pr
 
 GraphQL Request:
 ```graphql
-query GetUploadDetails($reportId: String!) {
+query GetUploadDetails($uploadId: String!, $sortReportsBy: String?, $sortOrder: String?) {
   uploadDetails(
-    reportId: $reportId
+    uploadId: $uploadId,
+    sortReportsBy: $sortReportsBy,
+    sortOrder: $sortOrder
   ) {
     status
-    currentStage
-    currentAction
+    lastService
+    lastAction
     filename
     uploadId
     timestamp
     dataStreamId
     dataStreamRoute
     jurisdiction
+    senderId
     reports {
-      stage
+      service
       action
-      schemaName
-      schemaVersion
-      dataStreamId
-      dataStreamRoute
-      jurisdiction
+      reportSchemaVersion
       status
       messageMetadata {
         messageUUID
@@ -557,35 +583,40 @@ query GetUploadDetails($reportId: String!) {
         key
         value
       }
+      contentType
+      content
     }
   }
 }
 ```
+**Notes**
+- `sortReportsBy`: Optional, only column supported is `timestamp`.  Default is no sort.
+- `sortBy`: Optional, enum [`asc` or `desc`].  Default is `asc`.  
+
 
 GraphQL Response:
 ```json
 {
   "data": {
     "uploadDetails": {
-      "status": "processing|failed|delivered",
-      "currentStage": "hl7v2",
-      "currentAction": "debatch",
-      "filename": "test.txt",
+      "status": "DELIVERED",
+      "lastService": "hl7v2", // [1]
+      "lastAction": "debatch", // [2]
+      "filename": "test.txt", // [3]
       "uploadId": "unique_guid",
-      "timestamp": "2024-06-19T00:51:08Z",
+      "dexIngestTimestamp": "2024-06-19T00:51:08Z", // [4]
       "dataStreamId": "aims-celr",
       "dataStreamRoute": "hl7",
       "jurisdiction": "TXA",
-      "reports": [
+      "senderId": "izgw",
+      "reports": [ // [5]
         {
-          "stage": "DEX HL7 v2",
-          "action": "debatch",
+          "service": "HL7",
+          "action": "DEBATCH",
           "schemaName": "dex-hl7",
           "schemaVersion": "1.0",
-          "dataStreamId": "aims-celr",
-          "dataStreamRoute": "csv",
-          "jurisdiction": "MD",
           "status": "FAILURE",
+          "timestamp": "2024-06-19T00:51:33Z",
           "messageMetadata": {
             "messageUUID": "xyz-456",
             "messageHash": "234234ed423",
@@ -598,16 +629,17 @@ GraphQL Response:
               "message": "Some detailed debatch issue description"
             }
           ],
-          "references": [
-            {
-              "type": "data",
-              "key": "blob_url",
-              "value": "https:<ACCOUNT>.blob.core.windows.net/<PATH>/<FILENAME>?<SIGNATURE>"
-            }
-          ]
+          "tags": null,
+          "data": {
+              "blob_url": "https:<ACCOUNT>.blob.core.windows.net/<PATH>/<FILENAME>?<SIGNATURE>"
+          },
+          "contentType": "application/json",
+          "content": {
+            // report content...
+          }
         },
         {
-          "otherReports": "..."
+          // other reports...
         }
       ]
     }
@@ -615,9 +647,9 @@ GraphQL Response:
 }
 ```
 **Notes**
-- `status`: The processing, failed, or delivered status will be determined by first finding all reports associated with the upload.  Next, the report with the most recent timestamp will be examined.  The status of that report will be provided.
-- `current_stage`: Find report with most recent timestamp for the upload ID and report the stage.
-- `current_action`: Find report with most recent timestamp for the upload ID and report the action.
-- `filename`: Locate first found report with stage, "upload-status" for the upload ID and report the filename.
-- `timestamp`: The first found report `dex_ingest_datetime` for this upload will be provided.
-- `reports`: Array of the raw reports provided for this upload ID, sorted by timestamp with most recent first
+
+- [1] `lastService`: Find report with most recent timestamp for the upload ID and report the service.
+- [2] `lastAction`: Find report with most recent timestamp for the upload ID and report the action.
+- [3] `filename`: Locate first found report with service, "upload" and action "upload-status" for the given upload ID and report the filename.
+- [4] `dexIngestTimestamp`: The first found report `dex_ingest_datetime` for this upload will be provided.  All reports for a given upload ID should have the same `dex_ingest_datetime`.
+- [5] `reports`: Array of the raw reports provided for this upload ID.
