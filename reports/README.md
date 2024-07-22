@@ -692,6 +692,7 @@ query ProcessingCounts($dataStreamId: String!, $dataStreamRoute: String?, $dateS
 
 GraphQL Response:
 ```json
+{
   "data": {
     "processingCounts": {
       "statusCounts": {
