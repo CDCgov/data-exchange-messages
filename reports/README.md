@@ -547,13 +547,14 @@ Submission details contain all the known details for a particular upload.  It pr
 
 GraphQL Request:
 ```graphql
-query GetUploadDetails($uploadId: String!, $sortReportsBy: String?, $sortOrder: String?) {
+query GetUploadDetails($uploadId: String!, $sortReportsBy: String?, $sortOrder: String?, $filtersReportsStatus: [String!]?) {
   uploadDetails(
     uploadId: $uploadId,
     sortReportsBy: $sortReportsBy,
-    sortOrder: $sortOrder
+    sortOrder: $sortOrder,
+    filterReportsStatus: $filterReportsStatus
   ) {
-    status
+    status // [1]
     lastService
     lastAction
     filename
@@ -567,7 +568,7 @@ query GetUploadDetails($uploadId: String!, $sortReportsBy: String?, $sortOrder: 
       service
       action
       reportSchemaVersion
-      status
+      status // [2]
       messageMetadata {
         messageUUID
         messageHash
@@ -591,8 +592,10 @@ query GetUploadDetails($uploadId: String!, $sortReportsBy: String?, $sortOrder: 
 ```
 **Notes**
 - `sortReportsBy`: Optional, only column supported is `timestamp`.  Default is no sort.
-- `sortBy`: Optional, enum [`asc` or `desc`].  Default is `asc`.  
-
+- `sortBy`: Optional, enum [`asc` or `desc`].  Default is `asc`.
+- `filterReportsStatus`: Optional, and if provided is an array of raw status [`SUCCESS`, `FAILURE`] to include in the reports array.  All other statuses not listed in this array will be excluded.
+- [1] status is the rollup status: [`DELIVERED`, `FAILED`, `PROCESSING`]
+- [2] reports.status is the status of the invididual report: [`SUCCESS`, `FAILURE`]
 
 GraphQL Response:
 ```json
@@ -653,3 +656,63 @@ GraphQL Response:
 - [3] `filename`: Locate first found report with service, "upload" and action "upload-status" for the given upload ID and report the filename.
 - [4] `dexIngestTimestamp`: The first found report `dex_ingest_datetime` for this upload will be provided.  All reports for a given upload ID should have the same `dex_ingest_datetime`.
 - [5] `reports`: Array of the raw reports provided for this upload ID.
+
+
+### Submission Counts
+Use processing counts to get counts for a given data stream over a specified interval of time.  The `dateStart` and `dateEnd` or the `daysInterval` must be provided.  If the optional `dataStreamRoute` is not provided then all data stream routes will be included in the counts.
+
+GraphQL Request:
+```graphql
+query ProcessingCounts($dataStreamId: String!, $dataStreamRoute: String?, $dateStart: String?, $dateEnd: String?, $daysInterval: Int?) {
+  getProcessingCounts(
+    dataStreamId: $dataStreamId,
+    dataStreamRoute: $dataStreamRoute
+    dateStart: $dateStart
+    dateEnd: $dateEnd
+    daysInterval: $daysInterval
+  ) {
+    statusCounts {
+      failed {
+        counts
+        reasons
+      }
+      delivered {
+        counts
+        reasons
+      }
+      processing {
+        counts
+        reasons
+      }
+    }
+    totalCounts
+  }
+}
+```
+
+GraphQL Response:
+```json
+{
+  "data": {
+    "processingCounts": {
+      "statusCounts": {
+        "failed": {
+          "counts": 20,
+          "reasons": {
+            "metadata": 0
+          }
+        },
+        "delivered": {
+          "counts": 320,
+          "reasons": null
+        },
+        "processing": {
+          "counts": 2,
+          "reasons": null
+        }
+      },
+      "totalCounts": 342
+    }
+  }
+}
+```
