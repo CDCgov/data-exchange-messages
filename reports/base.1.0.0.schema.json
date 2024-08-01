@@ -104,7 +104,7 @@
                 "type": "string",
                 "description": "Name of the service associated with this report."
             },
-            "stage": {
+            "action": {
                 "type": "string",
                 "description": "Action the stage was conducting when providing this report."
             },
