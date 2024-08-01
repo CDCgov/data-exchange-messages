@@ -105,7 +105,7 @@ Example:
   "message_metadata": null,
   "stage_info": {
     "service": "routing",
-    "stage": "blob-file-copy",
+    "action": "blob-file-copy",
     "version": "1.0.3-SNAPSHOT",
     "status": "SUCCESS",
     "issues": null,
@@ -158,7 +158,7 @@ Example:
 | Field                   | Description                                                | Type               | Format  | Required |
 |-------------------------|------------------------------------------------------------|--------------------|---------|----------|
 | `service`               | Name of the service associated with this report            | String             |         | Yes      |
-| `stage`                 | Action the stage was conducting when providing this report | String             |         | Yes      |
+| `action`                | Action the stage was conducting when providing this report | String             |         | Yes      |
 | `version`               | Version of the stage providing this report                 | String             |         | No       |
 | `status`                | Enumeration: [SUCCESS, FAILURE]                            | String             | Enum    | Yes      |
 | `issues` [4a]           | List of issues, null if status is success                  | Array(JSON Object) |         | No       |
@@ -268,7 +268,7 @@ All DEX internal service shall provide their **report content** in JSON.  Report
 
 If partners using DEX have downstream processing and want to provide **report content** in XML, PDF or some other format they may.  If a partner provides any content format other than JSON it will be recorded in the `content` field as a base64 encoded string.
 
-| Report Type                     | Schemas Available                                                              | Latest Version | Used by stage / action                  |
+| Report Type                     | Schemas Available                                                              | Latest Version | Used by service / action                |
 |---------------------------------|--------------------------------------------------------------------------------|----------------|-----------------------------------------|
 | base                            | [schema.0.0.1](base.0.0.1.schema.json), [schema.1.0.0](base.1.0.0.schema.json) | 1.0.0          | all / all                               |
 | metadata-verify                 | [schema.1.0.0](metadata-verify.1.0.0.schema.json)                              | 1.0.0          | upload / metadata-verify                |
@@ -292,7 +292,7 @@ The PS API will perform the following workflow for validation.
 7. Report is accepted and recorded.
 
 ## Scope of Validation
-Verifying that a particular stage and/or action is using an expected report schema is not part of the report validation.  If extra report fields are provided they will not cause the validation to fail.  Rather, those fields and their values will be recorded verbatim along with the rest of the report.
+Verifying that a particular service and/or action is using an expected report schema is not part of the report validation.  If extra report fields are provided they will not cause the validation to fail.  Rather, those fields and their values will be recorded verbatim along with the rest of the report.
 
 ## Validation Library
 PS API is written in Kotlin.  There are a number of schema validation toolsets available in Java/Kotlin as listed [here](https://json-schema.org/implementations#validators-java).  For the proof of concept, the PS API will utilize [json-schema-friend](https://github.com/jimblackler/jsonschemafriend).
