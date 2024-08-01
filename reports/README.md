@@ -607,7 +607,7 @@ GraphQL Response:
       "lastAction": "debatch", // [2]
       "filename": "test.txt", // [3]
       "uploadId": "unique_guid",
-      "dexIngestTimestamp": "2024-06-19T00:51:08Z", // [4]
+      "dexIngestDateTime": "2024-06-19T00:51:08Z", // [4]
       "dataStreamId": "aims-celr",
       "dataStreamRoute": "hl7",
       "jurisdiction": "TXA",
@@ -654,7 +654,7 @@ GraphQL Response:
 - [1] `lastService`: Find report with most recent timestamp for the upload ID and report the service.
 - [2] `lastAction`: Find report with most recent timestamp for the upload ID and report the action.
 - [3] `filename`: Locate first found report with service, "upload" and action "upload-status" for the given upload ID and report the filename.
-- [4] `dexIngestTimestamp`: The first found report `dex_ingest_datetime` for this upload will be provided.  All reports for a given upload ID should have the same `dex_ingest_datetime`.
+- [4] `dexIngestDateTime`: The first found report `dex_ingest_datetime` for this upload will be provided.  All reports for a given upload ID should have the same `dex_ingest_datetime`.
 - [5] `reports`: Array of the raw reports provided for this upload ID.
 
 
