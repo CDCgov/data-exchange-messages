@@ -271,8 +271,11 @@ If partners using DEX have downstream processing and want to provide **report co
 | Report Type                     | Schemas Available                                                              | Latest Version | Used by service / action                |
 |---------------------------------|--------------------------------------------------------------------------------|----------------|-----------------------------------------|
 | base                            | [schema.0.0.1](base.0.0.1.schema.json), [schema.1.0.0](base.1.0.0.schema.json) | 1.0.0          | all / all                               |
-| metadata-verify                 | [schema.1.0.0](metadata-verify.1.0.0.schema.json)                              | 1.0.0          | upload / metadata-verify                |
-| upload-status                   | [schema.1.0.0](upload-status.1.0.0.schema.json)                                | 1.0.0          | upload / upload-status                  |
+| metadata-verify                 | [schema.1.0.0](metadata-verify.1.0.0.schema.json)                              | 1.0.0          | upload api / metadata-verify            |
+| metadata-transform              | [schema.1.0.0](metadata-transform.1.0.0.schema.json)                           | 1.0.0          | upload api / metadata-transform         |
+| upload-status                   | [schema.1.0.0](upload-status.1.0.0.schema.json)                                | 1.0.0          | upload api / upload-status              |
+| upload-started                  | [schema.1.0.0](upload-started.1.0.0.schema.json)                               | 1.0.0          | upload api / upload-started             |
+| upload-completed                | [schema.1.0.0](upload-completed.1.0.0.schema.json)                             | 1.0.0          | upload api / upload-completed           |
 | blob-file-copy                  | [schema.1.0.0](blob-file-copy.1.0.0.schema.json)                               | 1.0.0          | routing / file-copy, upload / file-copy |
 | hl7v2-debatch                   | [schema.1.0.0](hl7v2-debatch.1.0.0.schema.json)                                | 1.0.0          | hl7v2 / receiver                        |
 | hl7v2-redact                    | [schema.1.0.0](hl7v2-redact.1.0.0.schema.json)                                 | 1.0.0          | hl7v2 / redactor                        |
