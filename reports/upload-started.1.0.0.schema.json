@@ -16,7 +16,11 @@
             "type": "string"
         },
         "status": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+                "SUCCESS",
+                "FAILURE"
+            ]
         }
     }
 }
