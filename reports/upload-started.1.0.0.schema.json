@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://github.com/cdcent/data-exchange-messages/reports/base",
+    "$id": "https://github.com/cdcent/data-exchange-messages/reports/upload-started",
     "title": "Upload Started Report",
     "type": "object",
     "required": [
